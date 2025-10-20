@@ -1,0 +1,20 @@
+# Excluir archivos de entorno y artefactos locales
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Artefactos de Node/NEXT
+node_modules
+.pnpm-store
+.next
+dist
+out
+coverage
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*

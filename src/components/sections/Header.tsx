@@ -22,7 +22,7 @@ export const Header = () => {
     let active = true;
     (async () => {
       try {
-        const res = await fetch("/api/profile");
+        const res = await fetch("/api/profile", { credentials: "include", cache: "no-store" });
         const data = await res.json();
         if (active) setHasSession(Boolean(data?.ok && data.item));
       } catch {
@@ -42,7 +42,7 @@ export const Header = () => {
     } else {
       (async () => {
         try {
-          const res = await fetch("/api/profile");
+          const res = await fetch("/api/profile", { credentials: "include", cache: "no-store" });
           const data = await res.json();
           router.push(Boolean(data?.ok && data.item) ? "/dashboard" : "/sign-in");
         } catch {

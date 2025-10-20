@@ -6,12 +6,19 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
+// Normaliza baseURL evitando valores locales en producción
+const envBase = process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_APP_URL;
+const isLocal = (url?: string) => (url ? /localhost|127\.0\.0\.1/i.test(url) : false);
+const computedBaseURL =
+  process.env.NODE_ENV === "production"
+    ? isLocal(envBase)
+      ? "https://fideslex.site"
+      : envBase ?? "https://fideslex.site"
+    : envBase ?? "http://localhost:3000";
+
 export const auth = betterAuth({
   database: pool,
-  baseURL:
-    process.env.BETTER_AUTH_URL ??
-    process.env.NEXT_PUBLIC_APP_URL ??
-    (process.env.NODE_ENV === "production" ? "https://fideslex.site" : "http://localhost:3000"),
+  baseURL: computedBaseURL,
   secret: process.env.BETTER_AUTH_SECRET!,
   session: {
     cookieCache: {
@@ -27,6 +34,8 @@ export const auth = betterAuth({
         sameSite: "lax",
         path: "/",
         secure: process.env.NODE_ENV === "production",
+        // Asegura que el cookie sea válido para www y raíz en producción
+        domain: process.env.NODE_ENV === "production" ? ".fideslex.site" : undefined,
       },
     },
   },
