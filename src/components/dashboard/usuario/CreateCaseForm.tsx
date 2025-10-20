@@ -32,8 +32,9 @@ export default function CreateCaseForm({ clients, appointments }: { clients: Arr
         throw new Error(data?.error || "Error al crear el caso");
       }
       router.push(`/dashboard/usuario/casos/${data.item.id}`);
-    } catch (err: any) {
-      setError(err?.message || String(err));
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setError(msg);
     } finally {
       setLoading(false);
     }

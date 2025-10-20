@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Linkedin, Mail, Phone } from "lucide-react";
+import Image from "next/image";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,7 +12,7 @@ export const Footer = () => {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 gradient-accent rounded-lg flex items-center justify-center">
-                <img src="/logo.png" alt="Logo" className="w-6 h-6 object-contain" />
+                <Image src="/logo.png" alt="Logo" width={24} height={24} className="object-contain" />
               </div>
               <div>
                 <h3 className="text-xl font-bold">Asesoría Jurídica</h3>

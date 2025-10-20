@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, ShieldCheck, Plane, CreditCard, FileCheck, UserCheck } from "lucide-react";
+import Image from "next/image";
 
 const services = [
   {
@@ -101,10 +102,12 @@ export const Services = () => {
               <CardHeader>
                 <div className="flex items-start justify-between mb-4">
                   {service.image ? (
-                    <img 
+                    <Image 
                       src={service.image} 
                       alt={service.title}
-                      className="w-16 h-16 rounded-xl object-cover"
+                      width={64} 
+                      height={64}
+                      className="rounded-xl object-cover"
                     />
                   ) : (
                     <div className="w-16 h-16 gradient-hero rounded-xl flex items-center justify-center">

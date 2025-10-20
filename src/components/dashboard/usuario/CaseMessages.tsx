@@ -62,8 +62,9 @@ export default function CaseMessages({ caseId }: { caseId: number }) {
       setMessages((prev) => [...prev, data.item as MessageItem]);
       setContent("");
       setTimeout(scrollToBottom, 50);
-    } catch (err: any) {
-      setError(err?.message || "Error inesperado al enviar el mensaje");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Error inesperado al enviar el mensaje";
+      setError(msg);
     } finally {
       setLoading(false);
     }

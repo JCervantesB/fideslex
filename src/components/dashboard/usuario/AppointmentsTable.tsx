@@ -57,8 +57,9 @@ export default function AppointmentsTable({ title, items, showProvider = false, 
       }
       setRows((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
       setEditingId(null);
-    } catch (e: any) {
-      setMessage(e.message || "Error al actualizar el estado");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Error al actualizar el estado";
+      setMessage(msg);
     } finally {
       setSaving(false);
     }

@@ -39,8 +39,8 @@ export default function SignInPage() {
 
       if (error) throw new Error(error.message || "Error al iniciar sesión");
       router.push(redirectTo);
-    } catch (err: any) {
-      setError(err?.message || "Error inesperado");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error inesperado");
     } finally {
       setLoading(false);
     }

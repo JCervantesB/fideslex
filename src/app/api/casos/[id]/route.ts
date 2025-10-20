@@ -56,9 +56,10 @@ export async function GET(_req: Request, context: { params: Promise<{ id: string
     }
 
     return NextResponse.json({ ok: true, item });
-  } catch (err: any) {
-    console.error("GET /api/casos/[id] error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("GET /api/casos/[id] error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
 
@@ -97,9 +98,10 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
       .returning();
 
     return NextResponse.json({ ok: true, item: updated[0] });
-  } catch (err: any) {
-    console.error("PUT /api/casos/[id] error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("PUT /api/casos/[id] error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
 
@@ -123,8 +125,9 @@ export async function DELETE(_req: Request, context: { params: Promise<{ id: str
 
     await db.delete(cases).where(eq(cases.id, id));
     return NextResponse.json({ ok: true });
-  } catch (err: any) {
-    console.error("DELETE /api/casos/[id] error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("DELETE /api/casos/[id] error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

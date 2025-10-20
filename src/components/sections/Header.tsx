@@ -5,6 +5,7 @@ import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -58,7 +59,7 @@ export const Header = () => {
 
           {/* Logo y marca */}
           <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="FidesLex" className="w-10 h-10 rounded-lg object-contain" />
+            <Image src="/logo.png" alt="FidesLex" width={40} height={40} className="rounded-lg object-contain" priority />
             <div>
               <h1 className="text-xl font-bold text-foreground">Fidex Lex</h1>
               <p className="text-xs text-muted-foreground">Asesoría Jurídica Especializada</p>

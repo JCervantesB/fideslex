@@ -29,8 +29,8 @@ export default function EditCaseForm({ caseId, initial, appointments }: { caseId
       const data = await res.json();
       if (!data?.ok) throw new Error(data?.error || "Error al actualizar el caso");
       router.push(`/dashboard/usuario/casos/${caseId}`);
-    } catch (err: any) {
-      setError(err?.message || String(err));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
     } finally {
       setLoading(false);
     }
@@ -50,8 +50,8 @@ export default function EditCaseForm({ caseId, initial, appointments }: { caseId
         const data = await r.json();
         if (!data?.ok) throw new Error(data?.error || "Error registrando documento");
       }
-    } catch (err: any) {
-      setUploadError(err?.message || String(err));
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : String(err));
     }
   }
 

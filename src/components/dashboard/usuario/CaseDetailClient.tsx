@@ -17,7 +17,7 @@ export default function CaseDetailClient({ caseId, initialDocs }: { caseId: numb
         const res = await fetch(`/api/casos/${caseId}/documentos`);
         const data = await res.json();
         if (active && data?.ok) {
-          const nextDocs = (data.items as any[]).map((d) => ({ id: d.id as number, fileName: d.fileName as string, fileUrl: d.fileUrl as string }));
+          const nextDocs = (data.items as DocItem[]).map((d) => ({ id: d.id, fileName: d.fileName, fileUrl: d.fileUrl }));
           setDocs(nextDocs);
         }
       } catch {}
@@ -42,11 +42,11 @@ export default function CaseDetailClient({ caseId, initialDocs }: { caseId: numb
       const reload = await fetch(`/api/casos/${caseId}/documentos`);
       const reloadData = await reload.json();
       if (reloadData?.ok) {
-        const nextDocs = (reloadData.items as any[]).map((d) => ({ id: d.id as number, fileName: d.fileName as string, fileUrl: d.fileUrl as string }));
+        const nextDocs = (reloadData.items as DocItem[]).map((d) => ({ id: d.id, fileName: d.fileName, fileUrl: d.fileUrl }));
         setDocs(nextDocs);
       }
-    } catch (err: any) {
-      setError(err?.message || String(err));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
     }
   }
 

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Phone } from "lucide-react";
+import Image from "next/image";
 
 export const Hero = () => {
   const scrollToContact = () => {
@@ -13,10 +14,13 @@ export const Hero = () => {
     <section className="relative min-h-screen flex items-center pt-20">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        <img 
+        <Image 
           src="/hero-legal.jpg" 
           alt="Asesoría legal profesional"
-          className="w-full h-full object-cover"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/85 to-background/60" />
       </div>

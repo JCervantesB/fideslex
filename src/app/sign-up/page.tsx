@@ -70,8 +70,8 @@ export default function SignUpPage() {
       }
 
       router.push("/dashboard/cliente");
-    } catch (err: any) {
-      setError(err?.message || "Error inesperado");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error inesperado");
     } finally {
       setLoading(false);
     }

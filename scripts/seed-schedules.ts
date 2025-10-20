@@ -41,8 +41,9 @@ async function main() {
   try {
     await db.insert(schedules).values(baseSlots);
     console.log(`Insertados ${baseSlots.length} slots globales.`);
-  } catch (err: any) {
-    if (String(err?.message || err).includes('duplicate key')) {
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    if (msg.includes('duplicate key')) {
       console.log('Slots ya existentes, no se insertan duplicados.');
     } else {
       throw err;

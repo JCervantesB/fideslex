@@ -56,8 +56,9 @@ export const Contact = () => {
       }
       toast({ title: "¡Solicitud enviada!", description: "Nos pondremos en contacto contigo pronto." });
       setFormData({ name: "", email: "", phone: "", service: "", date: "", time: "", message: "" });
-    } catch (err: any) {
-      toast({ title: "Error", description: err?.message || String(err), variant: "destructive" });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      toast({ title: "Error", description: msg, variant: "destructive" });
     } finally {
       setLoading(false);
     }

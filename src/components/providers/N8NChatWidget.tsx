@@ -39,7 +39,7 @@ type ChatMetadata = {
   guest?: boolean;
   cita?: ChatAppointment;
   cita_servicio?: ChatAppointmentServicePivot;
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 type ProfileItem = {

@@ -54,7 +54,7 @@ async function ensureNotificationsTable() {
   `);
 }
 
-function isAllowedToAccessCase(role: string, userId: string, item: { userId: string; clientId: string }) {
+function isAllowedToAccessCase(role: string, userId: string, item: typeof cases.$inferSelect) {
   return (
     role === "administrador" ||
     (role === "usuario" && item.userId === userId) ||
@@ -79,7 +79,7 @@ export async function GET(_req: Request, context: { params: Promise<{ id: string
 
     const role = authz.profile.role as string;
     const userId = authz.session.user.id as string;
-    if (!isAllowedToAccessCase(role, userId, item as any)) {
+    if (!isAllowedToAccessCase(role, userId, item)) {
       return NextResponse.json({ ok: false, error: "No autorizado" }, { status: 403 });
     }
 
@@ -103,9 +103,10 @@ export async function GET(_req: Request, context: { params: Promise<{ id: string
     }));
 
     return NextResponse.json({ ok: true, items });
-  } catch (err: any) {
-    console.error("GET /api/casos/[id]/mensajes error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("GET /api/casos/[id]/mensajes error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
 
@@ -126,7 +127,7 @@ export async function POST(req: Request, context: { params: Promise<{ id: string
 
     const role = authz.profile.role as string;
     const userId = authz.session.user.id as string;
-    if (!isAllowedToAccessCase(role, userId, item as any)) {
+    if (!isAllowedToAccessCase(role, userId, item)) {
       return NextResponse.json({ ok: false, error: "No autorizado" }, { status: 403 });
     }
 
@@ -158,15 +159,16 @@ export async function POST(req: Request, context: { params: Promise<{ id: string
     if (role === "cliente") {
       try {
         await ensureNotificationsTable();
-        const caseName = String((item as any).nombre || (item as any).asunto || `Caso #${caseId}`);
+        const caseName = String(item.nombre || item.asunto || `Caso #${caseId}`);
         const preview = content.length > 140 ? content.slice(0, 140) + "…" : content;
         await pool.query(
           `INSERT INTO notifications (user_id, type, title, body, link_url, case_id)
            VALUES ($1, $2, $3, $4, $5, $6)`,
-          [String((item as any).userId), "case_message", `Nuevo mensaje en caso: ${caseName}`, preview, `/dashboard/usuario/casos/${caseId}`, caseId]
+          [String(item.userId), "case_message", `Nuevo mensaje en caso: ${caseName}`, preview, `/dashboard/usuario/casos/${caseId}`, caseId]
         );
-      } catch (notifyErr: any) {
-        console.warn("Fallo creando notificación de mensaje de cliente:", notifyErr?.message || notifyErr);
+      } catch (notifyErr) {
+        const message = notifyErr instanceof Error ? notifyErr.message : String(notifyErr);
+        console.warn("Fallo creando notificación de mensaje de cliente:", message);
       }
     }
 
@@ -195,14 +197,15 @@ export async function POST(req: Request, context: { params: Promise<{ id: string
           if (!clientName) {
             clientName = `${clientProfile.firstName ?? ""}${clientProfile.lastName ? ` ${clientProfile.lastName}` : ""}`.trim();
           }
-          if (!clientEmail && (clientProfile as any).email) {
-            clientEmail = String((clientProfile as any).email);
+          const emailFromProfile = (clientProfile as { email?: string }).email;
+          if (!clientEmail && emailFromProfile) {
+            clientEmail = String(emailFromProfile);
           }
         }
 
         if (clientEmail) {
           const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-          const caseName = String((item as any).nombre || (item as any).title || "");
+          const caseName = String(item.nombre || item.asunto || "");
           const subject = `Nuevo mensaje en su caso: ${caseName.trim() || "Fideslex"}`;
           const preview = content.length > 140 ? content.slice(0, 140) + "…" : content;
           const text = `Hola${clientName ? ` ${clientName}` : ""},\n\nTiene un nuevo mensaje en su caso "${caseName || `#${caseId}`}".\n\nMensaje:\n${content}\n\nPuede revisar el detalle en: ${appUrl}/dashboard/cliente/casos/${caseId}\n\nUn saludo,\nFídex Lex`;
@@ -221,14 +224,16 @@ export async function POST(req: Request, context: { params: Promise<{ id: string
         } else {
           console.warn("No se pudo enviar notificación: correo del cliente no disponible para caso", caseId);
         }
-      } catch (notifyErr: any) {
-        console.warn("Fallo enviando notificación de nuevo mensaje:", notifyErr?.message || notifyErr);
+      } catch (notifyErr) {
+        const message = notifyErr instanceof Error ? notifyErr.message : String(notifyErr);
+        console.warn("Fallo enviando notificación de nuevo mensaje:", message);
       }
     }
 
     return NextResponse.json({ ok: true, item: itemOut });
-  } catch (err: any) {
-    console.error("POST /api/casos/[id]/mensajes error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("POST /api/casos/[id]/mensajes error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

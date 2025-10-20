@@ -17,7 +17,39 @@ function HHMMtoStartMin(s: string) {
   return h * 60 + m;
 }
 
-function dateToYYYYMMDD(d: any): string {
+// Tipos para solicitudes y estado de conversión
+type Request = {
+  id: number;
+  clientId: string;
+  clientName: string;
+  clientEmail: string;
+  clientPhone: string;
+  desiredDate: string | Date | number;
+  desiredStartMin: number;
+  serviceName: string;
+  status: string;
+};
+
+type Row = {
+  id: number;
+  clientId: string;
+  clientName: string;
+  clientEmail: string;
+  clientPhone: string;
+  desiredDate: string;
+  desiredStartMin: number;
+  serviceName: string;
+  status: string;
+  serviceId: number | null;
+  userId: string | null;
+  date: string;
+  time: string;
+  converting: boolean;
+  done: boolean;
+  error: string | null;
+};
+
+function dateToYYYYMMDD(d: string | Date | number): string {
   try {
     const dt = new Date(d);
     const y = dt.getFullYear();
@@ -75,8 +107,8 @@ function useAvailability(userId: string | null, date: string | null) {
   return { slots, loading, fetchSlots };
 }
 
-export default function RequestsConverter({ requests, services }: { requests: any[]; services: Array<{ id: number; nombre: string; estado: string }> }) {
-  const [state, setState] = React.useState(() => {
+export default function RequestsConverter({ requests, services }: { requests: Request[]; services: Array<{ id: number; nombre: string; estado: string }> }) {
+  const [state, setState] = React.useState<Row[]>(() => {
     return requests.map((r) => {
       const target = services.find((s) => normalize(s.nombre) === normalize(r.serviceName)) || null;
       return {
@@ -119,7 +151,7 @@ export default function RequestsConverter({ requests, services }: { requests: an
 
   React.useEffect(() => {
     if (page > totalPages) setPage(1);
-  }, [totalPages]);
+  }, [totalPages, page]);
 
   return (
     <div className="space-y-3">
@@ -182,7 +214,7 @@ export default function RequestsConverter({ requests, services }: { requests: an
   );
 }
 
-function RequestRow({ row, setRow, services }: { row: any; setRow: (u: any) => void; services: Array<{ id: number; nombre: string; estado: string }> }) {
+function RequestRow({ row, setRow, services }: { row: Row; setRow: (u: Partial<Row>) => void; services: Array<{ id: number; nombre: string; estado: string }> }) {
   const [open, setOpen] = React.useState(false);
   const serviceId = row.serviceId as number | null;
   const { items: assignees, loading: assLoading } = useFetchAssignees(serviceId);
@@ -210,14 +242,14 @@ function RequestRow({ row, setRow, services }: { row: any; setRow: (u: any) => v
         setRow({ done: true, status: "programada" });
         setOpen(false);
       }
-    } catch (e: any) {
-      setRow({ error: e?.message || String(e) });
+    } catch (e) {
+      setRow({ error: e instanceof Error ? e.message : String(e) });
     }
     setRow({ converting: false });
   };
 
   return (
-    <> 
+    <>
       <tr className="border-b">
         <td className="px-3 py-2 whitespace-nowrap">
           <div className="font-medium">{row.clientName}</div>
