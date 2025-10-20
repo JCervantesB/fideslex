@@ -1,0 +1,1 @@
+ALTER TABLE "appointment_requests" ADD COLUMN "message" text;

@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "@n8n/chat/style.css";
+import "@uploadthing/react/styles.css";
+import { AppProviders } from "@/components/providers/app-providers";
+import N8NChatWidget from "@/components/providers/N8NChatWidget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,11 +27,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="es" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <AppProviders>{children}</AppProviders>
+        <div id="n8n-chat" />
+        <N8NChatWidget />
       </body>
     </html>
   );

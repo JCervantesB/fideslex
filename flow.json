@@ -1,0 +1,170 @@
+{
+  "name": "Chatbot Fídex Lex - Registro + Agendamiento",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "parameters": {
+        "path": "chat_fidexlex",
+        "methods": ["POST"]
+      },
+      "webhookDescription": "Recibe mensajes del chat web",
+      "typeVersion": 1
+    },
+    {
+      "id": "2",
+      "name": "Select Usuario (DB)",
+      "type": "n8n-nodes-base.postgres",
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM usuarios WHERE user_id = {{ $json.userId }} OR correo = {{ $json.email }}"
+      },
+      "typeVersion": 1
+    },
+    {
+      "id": "3",
+      "name": "IF Usuario Existe",
+      "type": "n8n-nodes-base.if",
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "{{ $json[\"result\"][0] !== undefined }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "4",
+      "name": "AI Agent - Registro",
+      "type": "n8n-nodes-langchain.chatagent",
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "systemMessage": "Preséntate como asistente de Fídex Lex y solicita educadamente nombre completo, correo y número telefónico para registro.",
+        "memory": {
+          "mode": "window",
+          "windowLength": 5
+        }
+      }
+    },
+    {
+      "id": "5",
+      "name": "Code - Extraer Datos Registro",
+      "type": "n8n-nodes-base.code",
+      "parameters": {
+        "language": "javascript",
+        "code": "const text = $json.output;\nconst name = text.match(/nombre:?\\s([A-Za-zñÑáéíóúÁÉÍÓÚ\\s]+)/i)?.[1] || null;\nconst email = text.match(/[\\w.-]+@[\\w.-]+/i)?.[0] || null;\nconst phone = text.match(/\\+?\\d[\\d\\s-]{8,}/)?.[0] || null;\nreturn [{json: {name, email, phone}}];"
+      }
+    },
+    {
+      "id": "6",
+      "name": "Insert Usuario (DB)",
+      "type": "n8n-nodes-base.postgres",
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO usuarios (user_id, nombre, correo, telefono, fecha_registro) VALUES ({{ $json.userId }}, {{ $json.name }}, {{ $json.email }}, {{ $json.phone }}, NOW())"
+      }
+    },
+    {
+      "id": "7",
+      "name": "AI Agent - Chat General",
+      "type": "n8n-nodes-langchain.chatagent",
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "systemMessage": "Eres el asistente de Fídex Lex. Usa tono profesional y responde preguntas sobre servicios, precios (en MXN) y horarios. Si nota intención de agendar cita, indica: 'Permítame ayudarle a registrarla' y continúa al nodo siguiente.",
+        "tools": ["Servicios", "Date & Time"]
+      }
+    },
+    {
+      "id": "8",
+      "name": "IF - Intención Agendar",
+      "type": "n8n-nodes-base.if",
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "{{ $json.output }}",
+              "operation": "contains",
+              "value2": "cita"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "9",
+      "name": "AI Agent - Confirmar Cita",
+      "type": "n8n-nodes-langchain.chatagent",
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "systemMessage": "Solicita de forma clara el servicio deseado, fecha y hora preferida. Usa formato: DD/MM/AAAA HH:mm. Confirma los detalles antes de crear el evento.",
+        "memory": {
+          "mode": "window",
+          "windowLength": 5
+        }
+      }
+    },
+    {
+      "id": "10",
+      "name": "Calendar - Check Disponibilidad",
+      "type": "n8n-nodes-base.googleCalendar",
+      "parameters": {
+        "operation": "getMany",
+        "calendarId": "primary",
+        "timeMin": "{{ $json.fecha }} {{ $json.hora }}",
+        "timeMax": "{{ new Date(new Date($json.fecha + ' ' + $json.hora).getTime() + 3600000).toISOString() }}"
+      }
+    },
+    {
+      "id": "11",
+      "name": "Calendar - Crear Evento",
+      "type": "n8n-nodes-base.googleCalendar",
+      "parameters": {
+        "operation": "create",
+        "calendarId": "primary",
+        "start": "{{ $json.fecha }} {{ $json.hora }}",
+        "end": "{{ new Date(new Date($json.fecha + ' ' + $json.hora).getTime() + 3600000).toISOString() }}",
+        "summary": "Cita Legal - {{ $json.servicio }}",
+        "description": "Cliente: {{ $json.name }} | Correo: {{ $json.email }} | Tel: {{ $json.phone }}"
+      }
+    },
+    {
+      "id": "12",
+      "name": "Insert Cita (DB)",
+      "type": "n8n-nodes-base.postgres",
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO citas (user_id, servicio, fecha, hora, calendar_event_id) VALUES ({{ $json.userId }}, {{ $json.servicio }}, {{ $json.fecha }}, {{ $json.hora }}, {{ $json.event_id }})"
+      }
+    },
+    {
+      "id": "13",
+      "name": "Send Message - Confirmación",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "url": "https://api.tu-chat.com/send",
+        "method": "POST",
+        "body": {
+          "to": "{{ $json.phone }}",
+          "message": "Su cita de {{ $json.servicio }} ha sido confirmada para el {{ $json.fecha }} a las {{ $json.hora }}. Recibirá un correo con los detalles. Gracias por confiar en Fídex Lex Asesoría Jurídica."
+        }
+      }
+    }
+  ],
+  "connections": {
+    "1": { "main": [["2", 0]] },
+    "2": { "main": [["3", 0]] },
+    "3": { "main": [["7", 1], ["4", 2]] },
+    "4": { "main": [["5", 0]] },
+    "5": { "main": [["6", 0]] },
+    "6": { "main": [["7", 0]] },
+    "7": { "main": [["8", 0]] },
+    "8": { "main": [["9", 1]] },
+    "9": { "main": [["10", 0]] },
+    "10": { "main": [["11", 0]] },
+    "11": { "main": [["12", 0]] },
+    "12": { "main": [["13", 0]] }
+  }
+}
