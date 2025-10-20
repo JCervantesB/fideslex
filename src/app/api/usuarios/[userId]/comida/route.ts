@@ -42,9 +42,10 @@ export async function GET(_req: Request, ctx: { params: Promise<{ userId: string
 
     const [item] = await db.select().from(lunchBreaks).where(eq(lunchBreaks.userId, userId));
     return NextResponse.json({ ok: true, item: item || null });
-  } catch (err: any) {
-    console.error("GET /api/usuarios/[userId]/comida error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("GET /api/usuarios/[userId]/comida error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
 
@@ -89,9 +90,10 @@ export async function PUT(req: Request, ctx: { params: Promise<{ userId: string 
       const [row] = await db.insert(lunchBreaks).values({ userId, startMin }).returning();
       return NextResponse.json({ ok: true, item: row });
     }
-  } catch (err: any) {
-    console.error("PUT /api/usuarios/[userId]/comida error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("PUT /api/usuarios/[userId]/comida error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
 
@@ -107,8 +109,9 @@ export async function DELETE(_req: Request, ctx: { params: Promise<{ userId: str
 
     await db.delete(lunchBreaks).where(eq(lunchBreaks.userId, userId));
     return NextResponse.json({ ok: true });
-  } catch (err: any) {
-    console.error("DELETE /api/usuarios/[userId]/comida error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("DELETE /api/usuarios/[userId]/comida error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

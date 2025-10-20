@@ -63,9 +63,10 @@ export async function GET(req: Request) {
     }
 
     return NextResponse.json({ ok: true, items: rows });
-  } catch (err: any) {
-    console.error("GET /api/casos error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("GET /api/casos error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
 
@@ -123,8 +124,9 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ ok: true, item: inserted[0] });
-  } catch (err: any) {
-    console.error("POST /api/casos error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("POST /api/casos error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

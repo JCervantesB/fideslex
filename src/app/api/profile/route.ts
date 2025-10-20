@@ -18,8 +18,9 @@ export async function GET() {
     }
 
     return NextResponse.json({ ok: true, item: profile });
-  } catch (err: any) {
-    console.error("GET /api/profile error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("GET /api/profile error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

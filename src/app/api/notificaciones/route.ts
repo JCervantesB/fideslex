@@ -52,7 +52,7 @@ export async function GET(req: Request) {
     let query = `SELECT id, type, title, body, link_url, case_id, created_at
                  FROM notifications
                  WHERE user_id = $1`;
-    const params: any[] = [authz.session.user.id];
+    const params: (string | number)[] = [authz.session.user.id];
 
     if (status === "unread") {
       query += ` AND read_at IS NULL`;
@@ -75,8 +75,9 @@ export async function GET(req: Request) {
     }));
 
     return NextResponse.json({ ok: true, items });
-  } catch (err: any) {
-    console.error("GET /api/notificaciones error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("GET /api/notificaciones error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

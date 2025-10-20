@@ -12,11 +12,12 @@ export async function GET() {
       dbUrlPresent: Boolean(connectionString),
       result: result.rows[0] || null,
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json(
       {
         ok: false,
-        error: err?.message || String(err),
+        error: message,
         dbUrl: process.env.DATABASE_URL || null,
       },
       { status: 500 },

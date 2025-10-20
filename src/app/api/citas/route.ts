@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { profiles, appointments, appointmentServices, lunchBreaks } from "@/db/schema";
-import { eq, and, gte, lt, inArray } from "drizzle-orm";
+import { eq, and, gte, lt } from "drizzle-orm";
 import { Pool } from "pg";
 
 async function requireAuthenticated() {
@@ -85,9 +85,10 @@ export async function GET(req: Request) {
       .where(and(eq(appointments.userId, userId), gte(appointments.startAt, dayStart), lt(appointments.startAt, dayEnd)));
 
     return NextResponse.json({ ok: true, items: rows });
-  } catch (err: any) {
-    console.error("GET /api/citas error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("GET /api/citas error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
 
@@ -139,7 +140,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Slot ya reservado" }, { status: 409 });
     }
 
-    const payload: any = {
+    type NewAppointment = typeof appointments.$inferInsert;
+    const payload: NewAppointment = {
       userId,
       startAt,
       endAt,
@@ -160,8 +162,9 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ ok: true, item: appt });
-  } catch (err: any) {
-    console.error("POST /api/citas error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("POST /api/citas error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

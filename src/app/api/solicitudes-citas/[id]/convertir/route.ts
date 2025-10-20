@@ -160,11 +160,12 @@ export async function POST(_req: Request, context: { params: Promise<{ id: strin
     }
 
     // Crear cita
-    const payload: any = {
+    type NewAppointment = typeof appointments.$inferInsert;
+    const payload: NewAppointment = {
       userId,
-      clientId: reqRow.clientId,
-      clientName: reqRow.clientName,
-      clientEmail: reqRow.clientEmail,
+      clientId: reqRow.clientId ?? null,
+      clientName: reqRow.clientName ?? null,
+      clientEmail: reqRow.clientEmail ?? null,
       startAt,
       endAt,
       status: "pendiente",
@@ -230,13 +231,15 @@ export async function POST(_req: Request, context: { params: Promise<{ id: strin
         await sendEmail({ to: reqRow.clientEmail as string, subject, text, html });
         emailSent = true;
       }
-    } catch (mailErr: any) {
-      console.warn("Fallo enviando email de confirmación de cita:", mailErr?.message || mailErr);
+    } catch (mailErr: unknown) {
+      const message = mailErr instanceof Error ? mailErr.message : String(mailErr);
+      console.warn("Fallo enviando email de confirmación de cita:", message);
     }
 
     return NextResponse.json({ ok: true, appointment: appt, request: updatedReq, emailSent });
-  } catch (err: any) {
-    console.error("POST /api/solicitudes-citas/[id]/convertir error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("POST /api/solicitudes-citas/[id]/convertir error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

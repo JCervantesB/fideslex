@@ -51,9 +51,10 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
       return NextResponse.json({ ok: false, error: "No encontrado" }, { status: 404 });
     }
     return NextResponse.json({ ok: true, item: row });
-  } catch (err: any) {
-    console.error("GET /api/servicios/[id] error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("GET /api/servicios/[id] error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
 
@@ -71,9 +72,9 @@ export async function PUT(req: Request, ctx: { params: Promise<{ id: string }> }
     }
 
     const body = await req.json();
-    const data: any = {};
+    const data: Partial<typeof services.$inferInsert> = {};
     if (body.nombre !== undefined) data.nombre = body.nombre;
-    if (body.descripcion !== undefined) data.descripcion = body.descripcion;
+    if (body.descripcion !== undefined) data.descripcion = body.descripcion ?? null;
     if (body.precio !== undefined) data.precio = String(body.precio);
     if (body.estado !== undefined) data.estado = body.estado;
 
@@ -86,9 +87,10 @@ export async function PUT(req: Request, ctx: { params: Promise<{ id: string }> }
       return NextResponse.json({ ok: false, error: "No encontrado" }, { status: 404 });
     }
     return NextResponse.json({ ok: true, item: updated });
-  } catch (err: any) {
-    console.error("PUT /api/servicios/[id] error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("PUT /api/servicios/[id] error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
 
@@ -110,8 +112,9 @@ export async function DELETE(_req: Request, ctx: { params: Promise<{ id: string 
       return NextResponse.json({ ok: false, error: "No encontrado" }, { status: 404 });
     }
     return NextResponse.json({ ok: true, item: deleted });
-  } catch (err: any) {
-    console.error("DELETE /api/servicios/[id] error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("DELETE /api/servicios/[id] error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

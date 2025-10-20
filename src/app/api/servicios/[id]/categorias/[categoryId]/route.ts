@@ -33,8 +33,9 @@ export async function DELETE(_req: Request, ctx: { params: Promise<{ id: string;
       .delete(serviceCategories)
       .where(and(eq(serviceCategories.serviceId, serviceId), eq(serviceCategories.categoryId, catId)));
     return NextResponse.json({ ok: true });
-  } catch (err: any) {
-    console.error("DELETE /api/servicios/[id]/categorias/[categoryId] error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("DELETE /api/servicios/[id]/categorias/[categoryId] error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

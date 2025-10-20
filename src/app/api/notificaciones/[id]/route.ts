@@ -63,8 +63,9 @@ export async function PATCH(_req: Request, context: { params: Promise<{ id: stri
     }
 
     return NextResponse.json({ ok: true });
-  } catch (err: any) {
-    console.error("PATCH /api/notificaciones/[id] error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("PATCH /api/notificaciones/[id] error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

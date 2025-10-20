@@ -60,7 +60,7 @@ export async function GET(_req: Request, context: { params: Promise<{ id: string
 
     const docs = await db.select().from(caseDocuments).where(eq(caseDocuments.caseId, caseId));
     return NextResponse.json({ ok: true, items: docs });
-  } catch (err) {
+  } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("GET /api/casos/[id]/documentos error:", message);
     return NextResponse.json({ ok: false, error: message }, { status: 500 });
@@ -104,7 +104,7 @@ export async function POST(req: Request, context: { params: Promise<{ id: string
       .returning();
 
     return NextResponse.json({ ok: true, item: inserted[0] });
-  } catch (err) {
+  } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("POST /api/casos/[id]/documentos error:", message);
     return NextResponse.json({ ok: false, error: message }, { status: 500 });

@@ -105,7 +105,7 @@ export async function GET(req: Request) {
       .from(appointments)
       .where(and(eq(appointments.userId, userId), gte(appointments.startAt, dayStart), lt(appointments.startAt, dayEnd)));
 
-    const bookedMs = new Set<number>(existing.map((a) => new Date(a.startAt as any).getTime()));
+    const bookedMs = new Set<number>(existing.map((a) => new Date(a.startAt as Date | string | number).getTime()));
 
     const slots: Array<{ start: string; end: string }> = [];
     for (const a of base) {
@@ -120,8 +120,9 @@ export async function GET(req: Request) {
     }
 
     return NextResponse.json({ ok: true, slots });
-  } catch (err: any) {
-    console.error("GET /api/disponibilidad error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("GET /api/disponibilidad error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

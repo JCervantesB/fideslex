@@ -59,8 +59,9 @@ export async function GET(_req: Request, context: { params: Promise<{ id: string
     const items = rows.filter((r) => r.role === "usuario" || r.role === "administrador");
 
     return NextResponse.json({ ok: true, items });
-  } catch (err: any) {
-    console.error("GET /api/servicios/[id]/profesionales error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("GET /api/servicios/[id]/profesionales error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

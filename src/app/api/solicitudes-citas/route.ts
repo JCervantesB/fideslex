@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { profiles, appointmentRequests } from "@/db/schema";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { Pool } from "pg";
 
 async function ensureAppointmentRequestsTable() {
@@ -98,24 +98,21 @@ export async function GET(req: Request) {
     const limitParam = url.searchParams.get("limit");
     const limit = Math.max(1, Math.min(200, Number(limitParam) || 100));
 
-    let whereClause: any = undefined;
-    if (profile.role === "cliente" || scope === "own") {
-      whereClause = eq(appointmentRequests.clientId, profile.userId);
-    } else if (clientIdParam) {
-      whereClause = eq(appointmentRequests.clientId, clientIdParam);
-    }
-
-    const rows = await db
-      .select()
-      .from(appointmentRequests)
-      .where(whereClause as any)
+    const rows = await (
+      (profile.role === "cliente" || scope === "own")
+        ? db.select().from(appointmentRequests).where(eq(appointmentRequests.clientId, profile.userId))
+        : clientIdParam
+          ? db.select().from(appointmentRequests).where(eq(appointmentRequests.clientId, clientIdParam))
+          : db.select().from(appointmentRequests)
+    )
       .orderBy(desc(appointmentRequests.createdAt))
       .limit(limit);
 
     return NextResponse.json({ ok: true, items: rows });
-  } catch (err: any) {
-    console.error("GET /api/solicitudes-citas error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("GET /api/solicitudes-citas error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
 
@@ -159,20 +156,21 @@ export async function POST(req: Request) {
       .insert(appointmentRequests)
       .values({
         serviceName,
-        clientId: clientId as any,
-        clientName: clientName as any,
-        clientEmail: clientEmail as any,
-        clientPhone: clientPhone as any,
-        desiredDate: dateStr as any,
-        desiredStartMin: startMin as any,
+        clientId,
+        clientName: clientName!,
+        clientEmail: clientEmail!,
+        clientPhone: clientPhone!,
+        desiredDate: dateStr!,
+        desiredStartMin: startMin!,
         message,
         status: "solicitada",
       })
       .returning();
 
     return NextResponse.json({ ok: true, item: inserted }, { status: 201 });
-  } catch (err: any) {
-    console.error("POST /api/solicitudes-citas error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("POST /api/solicitudes-citas error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

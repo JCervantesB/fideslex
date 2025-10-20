@@ -70,9 +70,10 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
       .where(eq(serviceAssignees.serviceId, serviceId));
 
     return NextResponse.json({ ok: true, items: rows });
-  } catch (err: any) {
-    console.error("GET /api/servicios/[id]/usuarios error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("GET /api/servicios/[id]/usuarios error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
 
@@ -108,8 +109,9 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
       .onConflictDoNothing();
 
     return NextResponse.json({ ok: true });
-  } catch (err: any) {
-    console.error("POST /api/servicios/[id]/usuarios error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("POST /api/servicios/[id]/usuarios error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

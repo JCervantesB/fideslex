@@ -41,9 +41,10 @@ export async function GET() {
     await ensureServicesTable();
     const rows = await db.select().from(services);
     return NextResponse.json({ ok: true, items: rows });
-  } catch (err: any) {
-    console.error("GET /api/servicios error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("GET /api/servicios error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
 
@@ -73,8 +74,9 @@ export async function POST(req: Request) {
       .returning();
 
     return NextResponse.json({ ok: true, item: inserted }, { status: 201 });
-  } catch (err: any) {
-    console.error("POST /api/servicios error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("POST /api/servicios error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }

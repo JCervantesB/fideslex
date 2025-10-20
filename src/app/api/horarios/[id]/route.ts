@@ -71,9 +71,10 @@ export async function PUT(req: Request, ctx: { params: Promise<{ id: string }> }
       .returning();
 
     return NextResponse.json({ ok: true, item: row });
-  } catch (err: any) {
-    console.error("PUT /api/horarios/[id] error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("PUT /api/horarios/[id] error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
 
@@ -98,8 +99,9 @@ export async function DELETE(req: Request, ctx: { params: Promise<{ id: string }
 
     await db.delete(schedules).where(eq(schedules.id, scheduleId));
     return NextResponse.json({ ok: true });
-  } catch (err: any) {
-    console.error("DELETE /api/horarios/[id] error:", err?.message || err);
-    return NextResponse.json({ ok: false, error: err?.message || String(err) }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("DELETE /api/horarios/[id] error:", message);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
   }
 }
