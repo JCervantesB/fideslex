@@ -28,8 +28,9 @@ export async function POST(req: Request) {
     await db.insert(profiles).values({ userId, firstName, lastName, phone, role });
 
     return NextResponse.json({ ok: true });
-  } catch (err: any) {
-    console.error("Error creando perfil:", err?.message || err);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("Error creando perfil:", message);
     return NextResponse.json({ error: "Error interno" }, { status: 500 });
   }
 }

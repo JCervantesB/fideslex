@@ -20,7 +20,7 @@ function HHMMtoStartMin(s: string) {
 // Tipos para solicitudes y estado de conversión
 type Request = {
   id: number;
-  clientId: string;
+  clientId: string | null;
   clientName: string;
   clientEmail: string;
   clientPhone: string;
@@ -32,7 +32,7 @@ type Request = {
 
 type Row = {
   id: number;
-  clientId: string;
+  clientId: string | null;
   clientName: string;
   clientEmail: string;
   clientPhone: string;
@@ -113,7 +113,7 @@ export default function RequestsConverter({ requests, services }: { requests: Re
       const target = services.find((s) => normalize(s.nombre) === normalize(r.serviceName)) || null;
       return {
         id: r.id as number,
-        clientId: r.clientId as string,
+        clientId: r.clientId ?? null,
         clientName: r.clientName as string,
         clientEmail: r.clientEmail as string,
         clientPhone: r.clientPhone as string,

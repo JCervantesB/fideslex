@@ -35,7 +35,7 @@ export default async function CasoDetalleClientePage({ params }: { params: { id:
       })
       .from(cases)
       .where(eq(cases.id, id));
-    item = rows[0] as any;
+    item = rows[0] ?? null;
   } catch {
     item = null;
   }

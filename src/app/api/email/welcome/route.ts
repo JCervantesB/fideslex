@@ -38,7 +38,8 @@ Equipo Fídex Lex`;
 
     const { messageId } = await sendEmail({ to, subject, text, html });
     return NextResponse.json({ ok: true, messageId });
-  } catch (err: any) {
-    return NextResponse.json({ ok: false, error: err?.message || "Error enviando email" }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ ok: false, error: message || "Error enviando email" }, { status: 500 });
   }
 }

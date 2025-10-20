@@ -17,7 +17,7 @@ async function requireAdmin() {
   return { session, profile };
 }
 
-export async function PUT(req: Request, ctx: any) {
+export async function PUT(req: Request, ctx: { params: Promise<{ userId: string }> }) {
   try {
     const authz = await requireAdmin();
     if ("error" in authz) return authz.error;
