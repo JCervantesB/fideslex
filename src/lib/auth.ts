@@ -1,14 +1,15 @@
 import { betterAuth } from "better-auth";
 import { Pool } from "pg";
 
-const useSSL =
-  process.env.NODE_ENV === "production" ||
-  (process.env.DATABASE_URL ?? "").includes("sslmode=require");
+// Solo habilita SSL si realmente se requiere por configuración
+const requireSSL =
+  (process.env.DATABASE_URL ?? "").includes("sslmode=require") ||
+  ["require", "verify-ca", "verify-full"].includes((process.env.PGSSLMODE ?? "").toLowerCase()) ||
+  (process.env.DB_SSL ?? "").toLowerCase() === "true";
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  // En muchos proveedores gestionados (Neon, Railway, Supabase) producción requiere SSL
-  ssl: useSSL ? { rejectUnauthorized: false } : undefined,
+  ssl: requireSSL ? { rejectUnauthorized: false } : undefined,
 });
 
 export const auth = betterAuth({
