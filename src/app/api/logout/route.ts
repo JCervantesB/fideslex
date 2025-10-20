@@ -14,24 +14,23 @@ export async function POST() {
     
     // Crear respuesta con cookies limpiadas
     const response = NextResponse.json({ ok: true, message: "Sesión cerrada correctamente" });
-    
-    // Limpiar cookies de sesión
-    response.cookies.set("better-auth.session_token", "", {
-      expires: new Date(0),
-      path: "/",
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-    });
-    
-    // Limpiar cualquier otra cookie relacionada con la autenticación
-    response.cookies.set("better-auth.csrf_token", "", {
-      expires: new Date(0),
-      path: "/",
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-    });
+
+    const securePrefix = process.env.NODE_ENV === "production" ? "__Secure-" : "";
+    const names = [
+      `${securePrefix}better-auth.session_token`,
+      `${securePrefix}better-auth.csrf_token`,
+      "better-auth.session_token",
+      "better-auth.csrf_token",
+    ];
+    for (const name of names) {
+      response.cookies.set(name, "", {
+        expires: new Date(0),
+        path: "/",
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+      });
+    }
     
     return response;
   } catch (err: unknown) {
@@ -40,13 +39,22 @@ export async function POST() {
     
     // Incluso si hay error, limpiar cookies
     const response = NextResponse.json({ ok: false, error: message }, { status: 500 });
-    response.cookies.set("better-auth.session-token", "", {
-      expires: new Date(0),
-      path: "/",
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-    });
+    const securePrefix = process.env.NODE_ENV === "production" ? "__Secure-" : "";
+    const names = [
+      `${securePrefix}better-auth.session_token`,
+      `${securePrefix}better-auth.csrf_token`,
+      "better-auth.session_token",
+      "better-auth.csrf_token",
+    ];
+    for (const name of names) {
+      response.cookies.set(name, "", {
+        expires: new Date(0),
+        path: "/",
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+      });
+    }
     
     return response;
   }

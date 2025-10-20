@@ -8,9 +8,15 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const sessionCookie = request.cookies.get("better-auth.session_token");
+  // Detectar cookies de sesión de Better Auth considerando el prefijo __Secure- en producción
+  const securePrefix = process.env.NODE_ENV === "production" ? "__Secure-" : "";
+  const possibleNames = [
+    `${securePrefix}better-auth.session_token`,
+    "better-auth.session_token",
+  ];
+  const hasSessionCookie = possibleNames.some((name) => Boolean(request.cookies.get(name)));
 
-  if (!sessionCookie) {
+  if (!hasSessionCookie) {
     const signInUrl = new URL("/sign-in", request.url);
     signInUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(signInUrl);
