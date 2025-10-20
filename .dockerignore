@@ -6,7 +6,6 @@
 .env.test
 
 # Artefactos de Node/NEXT
-node_modules
 .pnpm-store
 .next
 dist
