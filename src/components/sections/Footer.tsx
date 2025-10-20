@@ -26,7 +26,7 @@ export const Footer = () => {
               <a href="#" className="w-10 h-10 bg-background/10 hover:bg-background/20 rounded-lg flex items-center justify-center transition-base">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 bg-background/10 hover:bg-background/20 rounded-lg flex items-center justify-center transition-base">
+              <a href="https://www.instagram.com/fides.lex/?igsh=dmQ3bHYzMGt6eDBq" className="w-10 h-10 bg-background/10 hover:bg-background/20 rounded-lg flex items-center justify-center transition-base">
                 <Instagram className="w-5 h-5" />
               </a>
               <a href="#" className="w-10 h-10 bg-background/10 hover:bg-background/20 rounded-lg flex items-center justify-center transition-base">
@@ -69,13 +69,13 @@ export const Footer = () => {
               <li className="flex items-start gap-3">
                 <Phone className="w-5 h-5 mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-background/70 text-base">+52 55 1234 5678</p>
+                  <p className="text-background/70 text-base">+52 1 646 259 4685</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="w-5 h-5 mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-background/70 text-base break-words">contacto@fideslex.com</p>
+                  <p className="text-background/70 text-base break-words">contacto@fideslex.site</p>
                 </div>
               </li>
             </ul>
@@ -83,7 +83,7 @@ export const Footer = () => {
         </div>
 
         <div className="border-t border-background/10 pt-8 text-center">
-          <p className="text-background/70 text-base">© {currentYear} Fides Lex. Todos los derechos reservados.</p>
+          <p className="text-background/70 text-base">© {currentYear} Fídes Lex. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>

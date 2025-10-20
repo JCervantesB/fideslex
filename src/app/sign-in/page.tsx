@@ -84,7 +84,7 @@ export default function SignInPage() {
               <SignInForm />
             </CardContent>
             <CardFooter className="justify-center">
-              <div className="text-center text-sm text-muted-foreground">
+              <div className="text-center text-lg text-muted-foreground">
                 ¿No tienes cuenta?{" "}
                 <Button asChild variant="link" className="p-0 h-auto">
                   <Link href="/sign-up">Crear cuenta</Link>

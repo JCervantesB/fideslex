@@ -59,9 +59,9 @@ export const Header = () => {
 
           {/* Logo y marca */}
           <div className="flex items-center gap-3">
-            <Image src="/logo.png" alt="FidesLex" width={40} height={40} className="rounded-lg object-contain" priority />
+            <Image src="/logo.png" alt="FidesLex" width={48} height={48} className="rounded-lg object-contain" priority />
             <div>
-              <h1 className="text-xl font-bold text-foreground">Fidex Lex</h1>
+              <h1 className="font-bold text-xl text-secondary hover:text-secondary-light">Fídex Lex</h1>
               <p className="text-xs text-muted-foreground">Asesoría Jurídica Especializada</p>
             </div>
           </div>
@@ -77,10 +77,10 @@ export const Header = () => {
             <button onClick={() => scrollToSection("contacto")} className="text-base text-foreground hover:text-primary transition-base font-medium">
               Contacto
             </button>
-            <Button variant="secondary" size="default" onClick={() => scrollToSection("contacto")}>
+            <Button id="btn-agendar-cita" variant="secondary" size="default" onClick={() => scrollToSection("contacto")}>
               Agendar Cita
             </Button>
-            <Button size="default" onClick={handleAccessClick}>
+            <Button id="btn-acceder" size="default" onClick={handleAccessClick}>
               Acceder
             </Button>
             <ThemeToggle />
@@ -111,10 +111,10 @@ export const Header = () => {
             <button onClick={() => scrollToSection("contacto")} className="text-lg text-foreground hover:text-primary transition-base font-medium text-left py-2">
               Contacto
             </button>
-            <Button variant="secondary" size="lg" className="w-full" onClick={() => scrollToSection("contacto")}>
+            <Button id="btn-agendar-cita-mobile" variant="secondary" size="lg" className="w-full" onClick={() => scrollToSection("contacto")}>
               Agendar Cita
             </Button>
-            <Button size="lg" className="w-full" onClick={handleAccessClick}>
+            <Button id="btn-acceder-mobile" size="lg" className="w-full" onClick={handleAccessClick}>
               Acceder
             </Button>
           </nav>

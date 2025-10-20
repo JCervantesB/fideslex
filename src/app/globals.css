@@ -203,3 +203,86 @@ thead th {
 thead tr {
   border-bottom: 1px solid var(--color-border);
 }
+
+/* Driver.js brand overrides */
+.driver-popover {
+  border: 2px solid hsl(var(--secondary));
+  box-shadow: var(--shadow-md);
+}
+
+.driver-popover-title {
+  color: hsl(var(--primary));
+}
+
+.driver-popover-description {
+  color: hsl(var(--foreground));
+}
+
+.driver-popover-progress-text {
+  color: hsl(var(--secondary));
+  font-weight: 600;
+}
+
+.driver-popover-footer button {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border-color: transparent;
+}
+.driver-popover-footer button:hover,
+.driver-popover-footer button:focus {
+  background-color: hsl(var(--primary-light));
+  color: hsl(var(--primary-foreground));
+}
+
+.driver-popover-close-btn {
+  color: hsl(var(--primary-lighter));
+}
+.driver-popover-close-btn:hover,
+.driver-popover-close-btn:focus {
+  color: hsl(var(--primary));
+}
+
+/* Overlay tint in brand primary (blue) */
+.driver-overlay {
+  background: hsl(var(--primary) / 0.35) !important;
+}
+
+/* Botones del tour: texto negro por defecto, hover en amarillo */
+.driver-popover-footer button,
+.driver-popover-footer .driver-btn {
+  color: hsl(0 0% 0%) !important; /* negro */
+}
+
+.driver-popover-footer button:hover,
+.driver-popover-footer button:focus,
+.driver-popover-footer button:active,
+.driver-popover-footer .driver-btn:hover,
+.driver-popover-footer .driver-btn:focus,
+.driver-popover-footer .driver-btn:active {
+  background-color: hsl(var(--secondary)) !important; /* amarillo */
+  color: hsl(0 0% 0%) !important; /* negro */
+  border-color: hsl(var(--secondary)) !important;
+}
+
+/* Variante secundaria: texto negro y hover amarillo */
+.driver-popover-footer .driver-btn-secondary {
+  color: hsl(0 0% 0%) !important;
+  border-color: hsl(var(--secondary)) !important;
+}
+.driver-popover-footer .driver-btn-secondary:hover,
+.driver-popover-footer .driver-btn-secondary:focus {
+  background-color: hsl(var(--secondary)) !important;
+  color: hsl(0 0% 0%) !important;
+}
+
+/* Variante secundaria (por si Driver usa clases específicas) */
+.driver-popover-footer .driver-btn-secondary {
+  background-color: transparent !important;
+  color: hsl(var(--primary)) !important;
+  border: 1px solid hsl(var(--primary)) !important;
+}
+.driver-popover-footer .driver-btn-secondary:hover,
+.driver-popover-footer .driver-btn-secondary:focus {
+  background-color: hsl(var(--primary) / 0.08) !important;
+  color: hsl(var(--primary)) !important;
+}

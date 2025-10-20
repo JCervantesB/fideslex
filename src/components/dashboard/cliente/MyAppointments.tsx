@@ -25,7 +25,7 @@ export default function MyAppointments({ items }: Props) {
   if (!isClient) return null;
 
   return (
-    <div className="rounded-md border p-4 space-y-4">
+    <div id="tour-citas-activas" className="rounded-md border p-4 space-y-4">
       <h2 className="text-xl font-semibold">Tus citas</h2>
       {sorted.length === 0 ? (
         <div className="text-sm text-muted-foreground">No tienes citas programadas.</div>

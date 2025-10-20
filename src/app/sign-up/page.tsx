@@ -117,7 +117,7 @@ export default function SignUpPage() {
             </form>
           </CardContent>
           <CardFooter className="justify-center">
-            <div className="text-center text-sm text-muted-foreground">
+            <div className="text-center text-lg text-muted-foreground">
               ¿Ya tienes cuenta?{" "}
               <Button asChild variant="link" className="p-0 h-auto">
                 <Link href="/sign-in">Iniciar sesión</Link>

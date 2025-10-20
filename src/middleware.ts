@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const sessionCookie = request.cookies.get("better-auth.session_token");
+  const sessionCookie = request.cookies.get("better-auth.session-token");
 
   if (!sessionCookie) {
     const signInUrl = new URL("/sign-in", request.url);

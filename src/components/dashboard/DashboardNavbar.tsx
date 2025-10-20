@@ -34,10 +34,10 @@ export default function DashboardNavbar() {
           <Link href="/dashboard" className="text-sm text-primary-foreground hover:text-secondary">Dashboard</Link>
           {role === "administrador" && (
             <>
-              <Link href="/dashboard/cliente" className="text-sm text-primary-foreground hover:text-secondary">Vista cliente</Link>
-              <Link href="/dashboard/usuario/calendario" className="text-sm text-primary-foreground hover:text-secondary">Calendario</Link>
-              <Link href="/dashboard/usuario/casos" className="text-sm text-primary-foreground hover:text-secondary">Casos</Link>
+              {/* <Link href="/dashboard/cliente" className="text-sm text-primary-foreground hover:text-secondary">Vista cliente</Link> */}
               <Link href="/dashboard/usuario/solicitudes-citas" className="text-sm text-primary-foreground hover:text-secondary">Solicitudes</Link>
+              <Link href="/dashboard/usuario/casos" className="text-sm text-primary-foreground hover:text-secondary">Casos</Link>
+              <Link href="/dashboard/usuario/calendario" className="text-sm text-primary-foreground hover:text-secondary">Calendario</Link>
               <Link href="/dashboard/admin/servicios" className="text-sm text-primary-foreground hover:text-secondary">Servicios</Link>
               <Link href="/dashboard/admin/usuarios" className="text-sm text-primary-foreground hover:text-secondary">Usuarios</Link>
             </>
@@ -45,9 +45,9 @@ export default function DashboardNavbar() {
           {role === "usuario" && (
             <>
               <Link href="/dashboard/usuario/servicios" className="text-sm text-primary-foreground hover:text-secondary">Servicios</Link>
-              <Link href="/dashboard/usuario/calendario" className="text-sm text-primary-foreground hover:text-secondary">Calendario</Link>
-              <Link href="/dashboard/usuario/casos" className="text-sm text-primary-foreground hover:text-secondary">Casos</Link>
               <Link href="/dashboard/usuario/solicitudes-citas" className="text-sm text-primary-foreground hover:text-secondary">Solicitudes</Link>
+              <Link href="/dashboard/usuario/casos" className="text-sm text-primary-foreground hover:text-secondary">Casos</Link>
+              <Link href="/dashboard/usuario/calendario" className="text-sm text-primary-foreground hover:text-secondary">Calendario</Link>
             </>
           )}
         </div>

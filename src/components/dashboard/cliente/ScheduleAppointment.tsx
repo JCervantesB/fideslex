@@ -260,6 +260,7 @@ export default function ScheduleAppointment({ groups }: Props) {
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => setStep(2)}>Atrás</Button>
           <Button
+             id="btn-solicitar-cita"
              disabled={!selectedSlot || !serviceId || !userId}
              onClick={async () => {
                if (!selectedSlot || !serviceId || !userId) return;
@@ -302,7 +303,7 @@ export default function ScheduleAppointment({ groups }: Props) {
   if (!isClient) return null;
 
   return (
-    <div className="space-y-8">
+    <div id="tour-crear-cita" className="space-y-8">
       <div className="space-y-2">
         <p className="text-muted-foreground">
           Siga estos pasos sencillos para sacar su turno.

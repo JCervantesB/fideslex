@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Phone } from "lucide-react";
 import Image from "next/image";
+import HomeTour from "@/components/tours/HomeTour";
 
 export const Hero = () => {
   const scrollToContact = () => {
@@ -27,11 +28,15 @@ export const Hero = () => {
 
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
+        {/* HomeTour colocado junto al badge */}
         <div className="max-w-3xl">
-          <div className="inline-block mb-6 px-6 py-2 gradient-accent rounded-full">
-            <p className="text-secondary-foreground font-semibold text-lg">
-              Asesoría Legal 100% Online
-            </p>
+          <div className="mb-6 flex items-center gap-3">
+            <div className="inline-block px-6 py-2 gradient-accent rounded-full">
+              <p className="text-secondary-foreground font-semibold text-lg">
+                Asesoría Legal 100% Online
+              </p>
+            </div>
+            <HomeTour className="inline-block" />
           </div>
           
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">

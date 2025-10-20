@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, NotebookPen } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -85,7 +85,7 @@ export const Contact = () => {
               <CardDescription className="text-base">Campos requeridos: nombre, email, teléfono, servicio, fecha y hora.</CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form id="contact-form" onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="name" className="text-base">Nombre Completo</Label>
@@ -200,7 +200,7 @@ export const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-lg mb-1">Teléfono</h3>
-                    <p className="text-muted-foreground text-base">+52 55 1234 5678</p>
+                    <p className="text-muted-foreground text-base">+52 1 646 259 4685</p>
                   </div>
                 </div>
 
@@ -210,7 +210,7 @@ export const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-lg mb-1">Email</h3>
-                    <p className="text-muted-foreground text-base break-words">contacto@asesorialegal.com</p>
+                    <p className="text-muted-foreground text-base break-words">contacto@fideslex.site</p>
                   </div>
                 </div>
 
@@ -233,13 +233,22 @@ export const Contact = () => {
                     <Clock className="w-6 h-6 text-primary-foreground" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg mb-1">Horario</h3>
+                    <h3 className="font-bold text-lg mb-1">Horarios de Atención</h3>
                     <p className="text-muted-foreground text-base">
                       Lunes a Viernes: 9:00 - 18:00
-                      <br />
-                      Sábados: 9:00 - 14:00
                     </p>
+                  </div>                  
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 gradient-hero rounded-lg flex items-center justify-center flex-shrink-0">
+                    <NotebookPen className="w-6 h-6 text-primary-foreground" />
                   </div>
+                  <div>
+                    <h3 className="font-bold text-lg mb-1">Agenda tu Cita</h3>
+                    <p className="text-muted-foreground text-base">
+                      24/7 disponibles
+                    </p>
+                  </div>                  
                 </div>
               </CardContent>
             </Card>

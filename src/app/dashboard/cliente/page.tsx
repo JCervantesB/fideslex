@@ -6,6 +6,7 @@ import { profiles, appointments, services, categories, serviceCategories, cases 
 import { eq, asc, inArray, and, lt } from "drizzle-orm";
 import MyAppointments from "@/components/dashboard/cliente/MyAppointments";
 import ScheduleAppointment from "@/components/dashboard/cliente/ScheduleAppointment";
+import ClienteTour from "@/components/tours/ClienteTour";
 
 export default async function DashboardClientePage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -115,10 +116,11 @@ export default async function DashboardClientePage() {
 
   return (
     <div className="container mx-auto px-4 py-12 space-y-8">
-      <div>
+      <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Dashboard Cliente</h1>
-        <p className="mt-2 text-muted-foreground">Bienvenido, {session.user.name ?? session.user.email}</p>
+        <ClienteTour className="relative z-40" />
       </div>
+      <p className="mt-2 text-muted-foreground">Bienvenido, {session.user.name ?? session.user.email}</p>
 
       <MyAppointments items={items} />
 
@@ -126,7 +128,7 @@ export default async function DashboardClientePage() {
       {hasPending && (
         <p className="text-sm text-muted-foreground">Ya tienes una cita pendiente. Podrás crear una nueva cuando finalice.</p>
       )}
-      <div className="mt-8">
+      <div id="tour-casos" className="mt-8">
         <h2 className="text-xl font-semibold mb-2">Casos</h2>
         {clientCases.length === 0 ? (
           <div className="rounded-md border p-4 text-sm text-muted-foreground">No tienes casos asociados.</div>
