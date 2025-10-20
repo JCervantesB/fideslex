@@ -7,7 +7,9 @@ if (!connectionString) {
   console.warn("DATABASE_URL no está definido. Drizzle no podrá conectarse hasta que se configure.");
 }
 
-const useSSL = process.env.NODE_ENV === "production";
+const useSSL =
+  process.env.NODE_ENV === "production" ||
+  (connectionString ?? "").includes("sslmode=require");
 
 const pool = new Pool({
   connectionString,
