@@ -1,7 +1,6 @@
 "use client";
 import { createAuthClient } from "better-auth/react";
 
-export const { signIn, signUp, signOut, useSession } = createAuthClient({
-  // En cliente, usamos siempre el mismo origen del navegador
-  baseURL: window.location.origin,
-});
+// Según la guía, si el auth server está en el mismo dominio,
+// no es necesario pasar baseURL.
+export const { signIn, signUp, signOut, useSession } = createAuthClient();

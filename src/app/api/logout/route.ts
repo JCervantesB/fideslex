@@ -16,7 +16,7 @@ export async function POST() {
     const response = NextResponse.json({ ok: true, message: "Sesión cerrada correctamente" });
     
     // Limpiar cookies de sesión
-    response.cookies.set("better-auth.session-token", "", {
+    response.cookies.set("better-auth.session_token", "", {
       expires: new Date(0),
       path: "/",
       httpOnly: true,
@@ -25,7 +25,7 @@ export async function POST() {
     });
     
     // Limpiar cualquier otra cookie relacionada con la autenticación
-    response.cookies.set("better-auth.csrf-token", "", {
+    response.cookies.set("better-auth.csrf_token", "", {
       expires: new Date(0),
       path: "/",
       httpOnly: true,
