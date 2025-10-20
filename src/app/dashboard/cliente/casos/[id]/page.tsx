@@ -6,6 +6,7 @@ import { profiles, cases, caseDocuments } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import CaseDetailClient from "@/components/dashboard/usuario/CaseDetailClient";
 import CaseMessages from "@/components/dashboard/usuario/CaseMessages";
+import CasoClienteTour from "@/components/tours/CasoClienteTour";
 
 export default async function CasoDetalleClientePage({ params }: { params: { id: string } }) {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -55,21 +56,26 @@ export default async function CasoDetalleClientePage({ params }: { params: { id:
 
   return (
     <div className="container mx-auto px-4 py-6 space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">{item.nombre}</h1>
-        <p className="text-muted-foreground">Asunto: {item.asunto}</p>
+      <div className="flex items-center justify-between" id="tour-caso-encabezado">
+        <h1 id="tour-caso-titulo" className="text-2xl font-semibold">{item.nombre}</h1>
+        <CasoClienteTour className="relative z-40" />
       </div>
+      <p className="text-muted-foreground">Asunto: {item.asunto}</p>
 
       {item.descripcion && (
-        <div className="rounded-md border p-4">
+        <div id="tour-caso-descripcion" className="rounded-md border p-4">
           <span className="text-sm text-muted-foreground">Descripción</span>
           <p className="mt-1 whitespace-pre-wrap">{item.descripcion}</p>
         </div>
       )}
 
-      <CaseMessages caseId={id} />
+      <div id="tour-caso-mensajes">
+        <CaseMessages caseId={id} />
+      </div>
 
-      <CaseDetailClient caseId={id} initialDocs={docs} />
+      <div id="tour-caso-documentos">
+        <CaseDetailClient caseId={id} initialDocs={docs} />
+      </div>
     </div>
   );
 }
