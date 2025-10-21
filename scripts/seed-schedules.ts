@@ -37,18 +37,14 @@ async function main() {
 
   const baseSlots = generateHalfHourSlots();
 
-  // Evitar duplicados por índice único (start_min, end_min)
-  try {
-    await db.insert(schedules).values(baseSlots);
-    console.log(`Insertados ${baseSlots.length} slots globales.`);
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    if (msg.includes('duplicate key')) {
-      console.log('Slots ya existentes, no se insertan duplicados.');
-    } else {
-      throw err;
-    }
-  }
+  // Insertar ignorando duplicados por índice único (start_min, end_min)
+  const inserted = await db
+    .insert(schedules)
+    .values(baseSlots)
+    .onConflictDoNothing({ target: [schedules.startMin, schedules.endMin] })
+    .returning({ id: schedules.id });
+
+  console.log(`Insertados ${inserted.length} nuevos slots; duplicados ignorados (${baseSlots.length - inserted.length}).`);
 
   console.log('Seed de schedules global completado.');
 }

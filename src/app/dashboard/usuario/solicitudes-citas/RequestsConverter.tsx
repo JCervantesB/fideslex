@@ -96,7 +96,7 @@ function useAvailability(userId: string | null, date: string | null) {
     if (!userId || !date) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/disponibilidad?userId=${encodeURIComponent(userId)}&date=${encodeURIComponent(date)}`, { cache: "no-store" });
+      const res = await fetch(`/api/disponibilidad?userId=${encodeURIComponent(userId)}&date=${encodeURIComponent(date)}&all=true`, { cache: "no-store" });
       const data = await res.json();
       if (data?.ok) {
         setSlots(data.slots || []);

@@ -76,6 +76,7 @@ export async function GET(req: Request) {
     const url = new URL(req.url);
     const userId = url.searchParams.get("userId");
     const date = url.searchParams.get("date");
+    const all = url.searchParams.get("all") === "true"; // si true, mostrar 24h
 
     if (!userId || !date) {
       return NextResponse.json({ error: "Faltan parámetros userId y date (YYYY-MM-DD)" }, { status: 400 });
@@ -83,9 +84,9 @@ export async function GET(req: Request) {
 
     const { start: dayStart, end: dayEnd } = toDayRange(date);
 
-    // Restringir a lunes–viernes usando día local
+    // Restringir a lunes–viernes usando día local, salvo si all=true
     const dow = dayStart.getDay();
-    if (dow === 0 || dow === 6) {
+    if (!all && (dow === 0 || dow === 6)) {
       return NextResponse.json({ ok: true, slots: [] });
     }
 
@@ -95,10 +96,12 @@ export async function GET(req: Request) {
     const lunchEndMin = lunchStartMin != null ? lunchStartMin + 60 : null;
 
     const avail = await db.select().from(schedules);
-    // Filtrar a 30min entre 09:00–16:00 por seguridad
-    const base = avail.filter(
-      (a) => (a.endMin - a.startMin) === 30 && a.startMin >= 540 && a.endMin <= 960
-    );
+    // Base: todos los bloques de 30m
+    let base = avail.filter((a) => (a.endMin - a.startMin) === 30);
+    // Si no es all=true, acotar a 09:00–16:00 por seguridad
+    if (!all) {
+      base = base.filter((a) => a.startMin >= 540 && a.endMin <= 960);
+    }
 
     const existing = await db
       .select()
