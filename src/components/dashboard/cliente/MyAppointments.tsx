@@ -36,7 +36,7 @@ export default function MyAppointments({ items }: Props) {
             {sorted.map((it) => {
               const start = new Date(it.startAt);
               const dateLabel = `${start.toLocaleDateString()}`;
-              const timeLabel = `${start.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+              const timeLabel = `${start.toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit", timeZone: "America/Mazatlan" })}`;
               return (
                 <div key={it.id} className="rounded-md border p-3">
                   <div className="flex items-start justify-between gap-3">

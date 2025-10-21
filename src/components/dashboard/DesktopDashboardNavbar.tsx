@@ -40,6 +40,7 @@ export default function DesktopDashboardNavbar() {
               <Link href="/dashboard/usuario/calendario" className="text-sm text-primary-foreground hover:text-secondary">Calendario</Link>
               <Link href="/dashboard/admin/servicios" className="text-sm text-primary-foreground hover:text-secondary">Servicios</Link>
               <Link href="/dashboard/admin/usuarios" className="text-sm text-primary-foreground hover:text-secondary">Usuarios</Link>
+              <Link href="/dashboard/cliente/direcciones" className="text-sm text-primary-foreground hover:text-secondary">Direcciones</Link>
             </>
           )}
           {role === "usuario" && (
@@ -48,6 +49,7 @@ export default function DesktopDashboardNavbar() {
               <Link href="/dashboard/usuario/solicitudes-citas" className="text-sm text-primary-foreground hover:text-secondary">Solicitudes</Link>
               <Link href="/dashboard/usuario/casos" className="text-sm text-primary-foreground hover:text-secondary">Casos</Link>
               <Link href="/dashboard/usuario/calendario" className="text-sm text-primary-foreground hover:text-secondary">Calendario</Link>
+              <Link href="/dashboard/cliente/direcciones" className="text-sm text-primary-foreground hover:text-secondary">Direcciones</Link>
             </>
           )}
         </div>

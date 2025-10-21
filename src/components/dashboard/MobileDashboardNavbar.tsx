@@ -62,6 +62,7 @@ export default function MobileDashboardNavbar() {
                 <Link href="/dashboard/usuario/calendario" className="px-2 py-2 rounded hover:bg-primary-light text-primary-foreground" onClick={() => setMenuOpen(false)}>Calendario</Link>
                 <Link href="/dashboard/admin/servicios" className="px-2 py-2 rounded hover:bg-primary-light text-primary-foreground" onClick={() => setMenuOpen(false)}>Servicios</Link>
                 <Link href="/dashboard/admin/usuarios" className="px-2 py-2 rounded hover:bg-primary-light text-primary-foreground" onClick={() => setMenuOpen(false)}>Usuarios</Link>
+                <Link href="/dashboard/cliente/direcciones" className="px-2 py-2 rounded hover:bg-primary-light text-primary-foreground" onClick={() => setMenuOpen(false)}>Direcciones</Link>
               </>
             )}
             {role === "usuario" && (
@@ -70,6 +71,12 @@ export default function MobileDashboardNavbar() {
                 <Link href="/dashboard/usuario/solicitudes-citas" className="px-2 py-2 rounded hover:bg-primary-light text-primary-foreground" onClick={() => setMenuOpen(false)}>Solicitudes</Link>
                 <Link href="/dashboard/usuario/casos" className="px-2 py-2 rounded hover:bg-primary-light text-primary-foreground" onClick={() => setMenuOpen(false)}>Casos</Link>
                 <Link href="/dashboard/usuario/calendario" className="px-2 py-2 rounded hover:bg-primary-light text-primary-foreground" onClick={() => setMenuOpen(false)}>Calendario</Link>
+                <Link href="/dashboard/cliente/direcciones" className="px-2 py-2 rounded hover:bg-primary-light text-primary-foreground" onClick={() => setMenuOpen(false)}>Direcciones</Link>
+              </>
+            )}
+            {role === "cliente" && (
+              <>
+                <Link href="/dashboard/cliente/direcciones" className="px-2 py-2 rounded hover:bg-primary-light text-primary-foreground" onClick={() => setMenuOpen(false)}>Direcciones</Link>
               </>
             )}
           </div>

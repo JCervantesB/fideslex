@@ -172,3 +172,19 @@ export const appointmentRequests = pgTable(
     updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
   }
 );
+
+export const addresses = pgTable("addresses", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id", { length: 255 }).notNull().references(() => profiles.userId),
+  nombre: varchar("nombre", { length: 120 }).notNull(),
+  direccion: text("direccion").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+});
+
+export const addressesRelations = relations(addresses, ({ one }) => ({
+  user: one(profiles, {
+    fields: [addresses.userId],
+    references: [profiles.userId],
+  }),
+}));
