@@ -323,6 +323,6 @@ const isWeekend = (dateStr: string) => {
   return day === 0 || day === 6;
 };
 const formatHour = (iso: string) =>
-  new Date(iso).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit", hour12: false });
+  new Date(iso).toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Mazatlan" });
 const formatDate = (dateStr: string) =>
   new Date(`${dateStr}T00:00:00`).toLocaleDateString("es-ES", { day: "2-digit", month: "2-digit", year: "numeric" });
