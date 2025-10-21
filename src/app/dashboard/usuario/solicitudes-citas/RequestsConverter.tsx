@@ -135,16 +135,18 @@ export default function RequestsConverter({ requests, services }: { requests: Re
   const [query, setQuery] = React.useState("");
   const [page, setPage] = React.useState(1);
   const pageSize = 10;
+  const [statusFilter, setStatusFilter] = React.useState<"no-programada" | "programada">("no-programada");
 
   const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return state;
-    return state.filter((r) =>
+    const base = statusFilter === "programada" ? state.filter((r) => r.status === "programada") : state.filter((r) => r.status !== "programada");
+    if (!q) return base;
+    return base.filter((r) =>
       (r.clientName && r.clientName.toLowerCase().includes(q)) ||
       (r.clientEmail && r.clientEmail.toLowerCase().includes(q)) ||
       (r.serviceName && r.serviceName.toLowerCase().includes(q))
     );
-  }, [state, query]);
+  }, [state, query, statusFilter]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const pageRows = React.useMemo(() => filtered.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize), [filtered, page]);
@@ -155,18 +157,57 @@ export default function RequestsConverter({ requests, services }: { requests: Re
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between gap-2">
-        <input
-          type="text"
-          className="w-full max-w-xs border rounded px-2 py-1 text-sm"
-          placeholder="Buscar por cliente, email o servicio"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+          <input
+            type="text"
+            className="w-full sm:w-64 border rounded px-2 py-1 text-sm"
+            placeholder="Buscar por cliente, email o servicio"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <div className="flex items-center gap-2">
+            <span className="text-xs sm:text-sm text-muted-foreground">Estado:</span>
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${statusFilter === 'no-programada' ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-muted text-foreground hover:bg-muted/80'}`}
+                onClick={() => setStatusFilter('no-programada')}
+                aria-pressed={statusFilter === 'no-programada'}
+              >
+                Pendientes
+              </button>
+              <button
+                type="button"
+                className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${statusFilter === 'programada' ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-muted text-foreground hover:bg-muted/80'}`}
+                onClick={() => setStatusFilter('programada')}
+                aria-pressed={statusFilter === 'programada'}
+              >
+                Programadas
+              </button>
+            </div>
+          </div>
+        </div>
         <div className="text-xs text-muted-foreground">Mostrando {pageRows.length} de {filtered.length}</div>
       </div>
 
-      <div className="rounded-md border overflow-x-auto">
+      {/* Vista móvil: tarjetas */}
+      <div className="md:!hidden space-y-3">
+        {pageRows.map((row, idx) => (
+          <MobileRequestCard
+            key={row.id}
+            row={row}
+            setRow={(u) => setState((old) => old.map((o, i) => (i === idx ? { ...o, ...u } : o)))}
+            services={services}
+          />
+        ))}
+        {pageRows.length === 0 && (
+          <div className="rounded-md border p-4 text-sm text-muted-foreground">No hay solicitudes para mostrar</div>
+        )}
+      </div>
+
+      {/* Vista escritorio: tabla original */}
+      <div className="hidden md:!block rounded-md border overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-muted/50 text-xs">
@@ -180,7 +221,12 @@ export default function RequestsConverter({ requests, services }: { requests: Re
           </thead>
           <tbody>
             {pageRows.map((row, idx) => (
-              <RequestRow key={row.id} row={row} setRow={(u) => setState((old) => old.map((o, i) => (i === idx ? { ...o, ...u } : o)))} services={services} />
+              <RequestRow
+                key={row.id}
+                row={row}
+                setRow={(u) => setState((old) => old.map((o, i) => (i === idx ? { ...o, ...u } : o)))}
+                services={services}
+              />
             ))}
             {pageRows.length === 0 && (
               <tr>
@@ -194,7 +240,7 @@ export default function RequestsConverter({ requests, services }: { requests: Re
       <div className="flex items-center justify-end gap-2">
         <button
           type="button"
-          className="px-3 py-1 border rounded text-sm disabled:opacity-50"
+          className="px-2 sm:px-3 py-1 border rounded text-xs sm:text-sm disabled:opacity-50"
           disabled={page <= 1}
           onClick={() => setPage((p) => Math.max(1, p - 1))}
         >
@@ -203,7 +249,7 @@ export default function RequestsConverter({ requests, services }: { requests: Re
         <span className="text-sm">{page} / {totalPages}</span>
         <button
           type="button"
-          className="px-3 py-1 border rounded text-sm disabled:opacity-50"
+          className="px-2 sm:px-3 py-1 border rounded text-xs sm:text-sm disabled:opacity-50"
           disabled={page >= totalPages}
           onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
         >
@@ -221,6 +267,27 @@ function RequestRow({ row, setRow, services }: { row: Row; setRow: (u: Partial<R
   const { slots, loading: slotsLoading, fetchSlots } = useAvailability(row.userId, row.date);
   const canConvert = row.status === "solicitada" || row.status === "pendiente";
 
+  React.useEffect(() => {
+    let cancel = false;
+    async function run() {
+      if (!open || !row.clientEmail) return;
+      try {
+        const res = await fetch(`/api/clientes/lookup?email=${encodeURIComponent(row.clientEmail)}`, { cache: "no-store" });
+        const data = await res.json();
+        if (!cancel && data?.ok && data.item) {
+          const fullName = `${data.item.firstName ?? ""} ${data.item.lastName ?? ""}`.trim();
+          setRow({
+            clientId: data.item.userId ?? row.clientId,
+            clientName: fullName || row.clientName,
+            clientPhone: data.item.phone ?? row.clientPhone,
+          });
+        }
+      } catch {}
+    }
+    run();
+    return () => { cancel = true; };
+  }, [open, row.clientEmail]);
+
   const onConvert = async () => {
     setRow({ converting: true, error: null });
     try {
@@ -233,7 +300,7 @@ function RequestRow({ row, setRow, services }: { row: Row; setRow: (u: Partial<R
       const res = await fetch(`/api/solicitudes-citas/${row.id}/convertir`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ serviceId: row.serviceId, userId: row.userId, date: row.date, startMin }),
+        body: JSON.stringify({ serviceId: row.serviceId, userId: row.userId, date: row.date, startMin, clientId: row.clientId }),
       });
       const data = await res.json();
       if (!data?.ok) {
@@ -343,6 +410,18 @@ function RequestRow({ row, setRow, services }: { row: Row; setRow: (u: Partial<R
               </div>
             </div>
 
+            <div className="mt-3 text-xs">
+              {row.clientId ? (
+                <div className="rounded-md border bg-muted/50 px-3 py-2">
+                  <div className="font-medium">Cliente sincronizado</div>
+                  <div>{row.clientName} · {row.clientPhone}</div>
+                  <div className="text-muted-foreground">{row.clientEmail}</div>
+                </div>
+              ) : (
+                <div className="text-muted-foreground">Sin datos sincronizados aún</div>
+              )}
+            </div>
+
             {slots.length > 0 && (
               <div className="mt-3">
                 <div className="text-xs mb-1">Slots disponibles:</div>
@@ -382,5 +461,206 @@ function RequestRow({ row, setRow, services }: { row: Row; setRow: (u: Partial<R
         </tr>
       )}
     </>
+  );
+}
+
+// Vista móvil: tarjeta con acciones de conversión
+function MobileRequestCard({ row, setRow, services }: { row: Row; setRow: (u: Partial<Row>) => void; services: Array<{ id: number; nombre: string; estado: string }> }) {
+  const [open, setOpen] = React.useState(false);
+  const serviceId = row.serviceId as number | null;
+  const { items: assignees, loading: assLoading } = useFetchAssignees(serviceId);
+  const { slots, loading: slotsLoading, fetchSlots } = useAvailability(row.userId, row.date);
+  const canConvert = row.status === "solicitada" || row.status === "pendiente";
+
+  React.useEffect(() => {
+    let cancel = false;
+    async function run() {
+      if (!open || !row.clientEmail) return;
+      try {
+        const res = await fetch(`/api/clientes/lookup?email=${encodeURIComponent(row.clientEmail)}`, { cache: "no-store" });
+        const data = await res.json();
+        if (!cancel && data?.ok && data.item) {
+          const fullName = `${data.item.firstName ?? ""} ${data.item.lastName ?? ""}`.trim();
+          setRow({
+            clientId: data.item.userId ?? row.clientId,
+            clientName: fullName || row.clientName,
+            clientPhone: data.item.phone ?? row.clientPhone,
+          });
+        }
+      } catch {}
+    }
+    run();
+    return () => { cancel = true; };
+  }, [open, row.clientEmail]);
+
+  const onConvert = async () => {
+    setRow({ converting: true, error: null });
+    try {
+      if (!row.serviceId || !row.userId || !row.date || !row.time) {
+        setRow({ error: "Completa servicio, empleado, fecha y hora" });
+        setRow({ converting: false });
+        return;
+      }
+      const startMin = HHMMtoStartMin(row.time);
+      const res = await fetch(`/api/solicitudes-citas/${row.id}/convertir`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ serviceId: row.serviceId, userId: row.userId, date: row.date, startMin, clientId: row.clientId }),
+      });
+      const data = await res.json();
+      if (!data?.ok) {
+        setRow({ error: data?.error || "Error al convertir" });
+      } else {
+        setRow({ done: true, status: "programada" });
+        setOpen(false);
+      }
+    } catch (e) {
+      setRow({ error: e instanceof Error ? e.message : String(e) });
+    }
+    setRow({ converting: false });
+  };
+
+  return (
+    <div className="rounded-md border p-3 space-y-2">
+      <div className="flex justify-between items-start gap-3">
+        <div>
+          <div className="font-medium">{row.clientName}</div>
+          <div className="text-xs text-muted-foreground">{row.clientEmail}</div>
+          <div className="text-xs mt-1">{row.serviceName}</div>
+          <div className="text-xs mt-1">Fecha: {row.desiredDate} · Hora: {startMinToHHMM(row.desiredStartMin)}</div>
+        </div>
+        <div className="text-xs px-2 py-1 rounded bg-gray-100">{row.status}</div>
+      </div>
+      <div className="flex justify-end">
+        {canConvert ? (
+          <button
+            type="button"
+            className="px-3 py-1 border rounded text-sm"
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? "Cerrar" : "Convertir"}
+          </button>
+        ) : (
+          <span className="text-xs text-muted-foreground">Procesada</span>
+        )}
+      </div>
+      {open && (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-end">
+            <div>
+              <label className="text-xs font-medium">Servicio</label>
+              <select
+                className="mt-1 w-full border rounded px-2 py-1 text-sm"
+                value={row.serviceId ?? ""}
+                onChange={(e) => setRow({ serviceId: e.target.value ? Number(e.target.value) : null, userId: null })}
+              >
+                <option value="">Selecciona servicio</option>
+                {services.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="text-xs font-medium">Empleado</label>
+              <select
+                className="mt-1 w-full border rounded px-2 py-1 text-sm"
+                value={row.userId ?? ""}
+                onChange={(e) => setRow({ userId: e.target.value || null })}
+                disabled={!row.serviceId || assLoading}
+              >
+                <option value="">{assLoading ? "Cargando..." : "Selecciona empleado"}</option>
+                {assignees.map((u) => (
+                  <option key={u.userId} value={u.userId}>
+                    {u.firstName} {u.lastName}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="text-xs font-medium">Fecha</label>
+              <input
+                type="date"
+                className="mt-1 w-full border rounded px-2 py-1 text-sm"
+                value={row.date}
+                onChange={(e) => setRow({ date: e.target.value })}
+              />
+            </div>
+
+            <div>
+              <label className="text-xs font-medium">Hora</label>
+              <div className="flex gap-2">
+                <input
+                  type="time"
+                  step={1800}
+                  className="mt-1 w-full border rounded px-2 py-1 text-sm"
+                  value={row.time}
+                  onChange={(e) => setRow({ time: e.target.value })}
+                />
+                <button
+                  type="button"
+                  className="mt-1 px-3 py-1 border rounded text-sm"
+                  onClick={fetchSlots}
+                  disabled={!row.userId || !row.date || slotsLoading}
+                >
+                  {slotsLoading ? "..." : "Disponibilidad"}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-3 text-xs">
+            {row.clientId ? (
+              <div className="rounded-md border bg-muted/50 px-3 py-2">
+                <div className="font-medium">Cliente sincronizado</div>
+                <div>{row.clientName} · {row.clientPhone}</div>
+                <div className="text-muted-foreground">{row.clientEmail}</div>
+              </div>
+            ) : (
+              <div className="text-muted-foreground">Sin datos sincronizados aún</div>
+            )}
+          </div>
+
+          {slots.length > 0 && (
+            <div className="mt-3">
+              <div className="text-xs mb-1">Slots disponibles:</div>
+              <div className="flex flex-wrap gap-2">
+                {slots.map((s) => {
+                  const d = new Date(s.start);
+                  const hh = String(d.getHours()).padStart(2, "0");
+                  const mm = String(d.getMinutes()).padStart(2, "0");
+                  const val = `${hh}:${mm}`;
+                  return (
+                    <button
+                      key={s.start}
+                      type="button"
+                      className={`px-3 py-1 border rounded text-xs ${row.time === val ? "bg-muted" : ""}`}
+                      onClick={() => setRow({ time: val })}
+                    >
+                      {val}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          <div className="mt-3 flex items-center gap-3">
+            <button
+              type="button"
+              className="px-4 py-2 rounded bg-primary text-primary-foreground disabled:opacity-50 text-sm"
+              onClick={onConvert}
+              disabled={!canConvert || row.converting || row.done}
+            >
+              {row.converting ? "Convirtiendo..." : row.done ? "Convertida" : "Guardar"}
+            </button>
+            {row.error && <div className="text-xs text-destructive">{row.error}</div>}
+          </div>
+        </>
+      )}
+    </div>
   );
 }

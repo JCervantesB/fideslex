@@ -53,33 +53,55 @@ export default async function UsuarioCasosPage() {
       {items.length === 0 ? (
         <div className="rounded-md border p-4 text-sm text-muted-foreground">No hay casos para mostrar.</div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full border rounded-md">
-            <thead>
-              <tr className="border-b bg-muted">
-                <th className="text-left p-3">Nombre</th>
-                <th className="text-left p-3">Asunto</th>
-                <th className="text-left p-3">Cliente</th>
-                <th className="text-left p-3">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((c) => (
-                <tr key={c.id} className="border-b">
-                  <td className="p-3">{c.nombre}</td>
-                  <td className="p-3">{c.asunto}</td>
-                  <td className="p-3">{c.clientName}</td>
-                  <td className="p-3">
-                    <div className="flex gap-2">
-                      <Link href={`/dashboard/usuario/casos/${c.id}`} className="text-sm underline underline-offset-2">Ver</Link>
-                      <Link href={`/dashboard/usuario/casos/${c.id}/editar`} className="text-sm underline underline-offset-2">Editar</Link>
-                    </div>
-                  </td>
+        <>
+          {/* Vista móvil: tarjetas */}
+          <div className="md:!hidden space-y-3">
+            {items.map((c) => (
+              <div key={c.id} className="rounded-md border p-3">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="font-medium">{c.nombre}</p>
+                    <p className="text-sm text-muted-foreground">{c.asunto}</p>
+                    <p className="text-sm text-muted-foreground">Cliente: {c.clientName}</p>
+                  </div>
+                </div>
+                <div className="mt-3 flex gap-2">
+                  <Link href={`/dashboard/usuario/casos/${c.id}`} className="text-sm underline underline-offset-2">Ver</Link>
+                  <Link href={`/dashboard/usuario/casos/${c.id}/editar`} className="text-sm underline underline-offset-2">Editar</Link>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Vista escritorio: tabla */}
+          <div className="hidden md:!block overflow-x-auto">
+            <table className="min-w-full border rounded-md">
+              <thead>
+                <tr className="border-b bg-muted">
+                  <th className="text-left p-3">Nombre</th>
+                  <th className="text-left p-3">Asunto</th>
+                  <th className="text-left p-3">Cliente</th>
+                  <th className="text-left p-3">Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {items.map((c) => (
+                  <tr key={c.id} className="border-b">
+                    <td className="p-3">{c.nombre}</td>
+                    <td className="p-3">{c.asunto}</td>
+                    <td className="p-3">{c.clientName}</td>
+                    <td className="p-3">
+                      <div className="flex gap-2">
+                        <Link href={`/dashboard/usuario/casos/${c.id}`} className="text-sm underline underline-offset-2">Ver</Link>
+                        <Link href={`/dashboard/usuario/casos/${c.id}/editar`} className="text-sm underline underline-offset-2">Editar</Link>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </div>
   );

@@ -88,20 +88,20 @@ export default function NotificationsBell({ role }: { role: string | null }) {
   return (
     <div className="relative" data-notify-root>
       <button
-        className="group relative p-2 rounded-lg bg-background hover:bg-secondary hover:text-secondary-foreground transition-colors border border-input"
-        aria-label="Notificaciones"
-        onClick={() => setOpen((o) => !o)}
-      >
-        <Bell className="w-6 h-6 text-foreground group-hover:text-secondary-foreground" />
-        {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs font-semibold px-1.5 py-0.5 rounded-full">
-            {unreadCount}
-          </span>
-        )}
-      </button>
+          className="group relative p-1.5 sm:p-2 md:p-2.5 rounded-lg bg-background hover:bg-muted transition-colors border border-input"
+          aria-label="Abrir notificaciones"
+          onClick={() => setOpen((o) => !o)}
+        >
+          <Bell className="w-5 h-5 sm:w-6 sm:h-6 md:w-6 md:h-6 text-foreground group-hover:text-primary transition-colors" />
+          {unreadCount > 0 && (
+            <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-xs sm:text-sm font-semibold px-1 sm:px-1.5 md:px-2 py-0.5 rounded-full">
+              {unreadCount}
+            </span>
+          )}
+        </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-80 rounded-lg border bg-popover text-popover-foreground shadow-md z-50">
+        <div className="fixed inset-x-2 top-14 w-auto sm:absolute sm:right-0 sm:inset-x-auto sm:top-auto sm:mt-2 sm:w-80 rounded-lg border bg-popover text-popover-foreground shadow-md z-50">
           <div className="p-2 border-b flex items-center justify-between">
             <span className="text-sm font-semibold">Notificaciones</span>
             {loading && <span className="text-xs text-muted-foreground">cargando…</span>}
@@ -110,7 +110,7 @@ export default function NotificationsBell({ role }: { role: string | null }) {
           {items.length === 0 ? (
             <div className="p-3 text-sm text-muted-foreground">No hay notificaciones nuevas.</div>
           ) : (
-            <ul className="max-h-96 overflow-y-auto">
+            <ul className="max-h-[60vh] sm:max-h-96 overflow-y-auto">
               {items.map((it) => (
                 <li key={it.id}>
                   <button

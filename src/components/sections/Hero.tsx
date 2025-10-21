@@ -51,7 +51,7 @@ export const Hero = () => {
             Servicios profesionales desde la comodidad de tu hogar.
           </p>
 
-          <div className="flex flex-row justify-between items-center gap-4 w-full">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 md:gap-4 w-full">
             <Button 
               variant="hero" 
               size="xl"
@@ -60,14 +60,7 @@ export const Hero = () => {
               Agendar Consulta Gratuita
               <ArrowRight className="w-5 h-5" />
             </Button>
-            <Button 
-              variant="outline" 
-              size="xl"
-              onClick={scrollToContact}
-            >
-              <Phone className="w-5 h-5" />
-              Contactar Ahora
-            </Button>
+            
           </div>
 
           {/* Trust Indicators */}

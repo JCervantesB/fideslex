@@ -6,6 +6,7 @@ import { sendEmail } from "@/lib/email";
 import { profiles, appointmentRequests, appointments, appointmentServices, services, serviceAssignees, lunchBreaks } from "@/db/schema";
 import { eq, and, gte, lt } from "drizzle-orm";
 import { Pool } from "pg";
+import { randomBytes } from "crypto";
 
 async function requireAuthorized() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -64,6 +65,16 @@ function toDayRange(dateStr: string) {
   return { start, end };
 }
 
+function generatePassword(length = 12) {
+  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+  const bytes = randomBytes(length);
+  let pwd = "";
+  for (let i = 0; i < length; i++) {
+    pwd += charset[bytes[i] % charset.length];
+  }
+  return pwd;
+}
+
 export async function POST(_req: Request, context: { params: Promise<{ id: string }> }) {
   try {
     const authz = await requireAuthorized();
@@ -83,6 +94,7 @@ export async function POST(_req: Request, context: { params: Promise<{ id: strin
     const userId: string | undefined = body?.userId;
     const date: string | undefined = body?.date; // YYYY-MM-DD
     const startMin: number | undefined = body?.startMin; // minutos desde medianoche
+    const clientIdBody: string | null = typeof body?.clientId === "string" ? body.clientId : null;
 
     // Obtener solicitud
     const [reqRow] = await db.select().from(appointmentRequests).where(eq(appointmentRequests.id, id));
@@ -159,11 +171,46 @@ export async function POST(_req: Request, context: { params: Promise<{ id: strin
       return NextResponse.json({ ok: false, error: "Slot ya reservado" }, { status: 409 });
     }
 
+    // Crear cuenta de usuario y perfil si el email no está registrado
+    let accountCreated = false;
+    let generatedPassword: string | null = null;
+    let newClientId: string | null = null;
+    let effectiveClientId: string | null = clientIdBody ?? (reqRow.clientId ?? null);
+
+    if (!effectiveClientId && reqRow.clientEmail) {
+      try {
+        generatedPassword = generatePassword(12);
+        const signUpRes: any = await auth.api.signUpEmail({
+          body: {
+            email: reqRow.clientEmail as string,
+            password: generatedPassword,
+            name: reqRow.clientName ?? "Cliente",
+          },
+        });
+        const createdUserId: string | undefined = signUpRes?.user?.id ?? signUpRes?.session?.user?.id ?? signUpRes?.data?.user?.id;
+        if (createdUserId) {
+          // Crear perfil
+          const nameParts = (reqRow.clientName ?? "Cliente").trim().split(/\s+/);
+          const firstName = nameParts[0] || "Cliente";
+          const lastName = nameParts.slice(1).join(" ") || "";
+          const phone = (reqRow.clientPhone as string) || "sin-telefono";
+          await db.insert(profiles).values({ userId: createdUserId, firstName, lastName, phone, role: "cliente" });
+          accountCreated = true;
+          newClientId = createdUserId;
+          effectiveClientId = createdUserId;
+        }
+      } catch (e: unknown) {
+        // Si ya existe, ignorar y continuar sin crear cuenta
+        const msg = e instanceof Error ? e.message : String(e);
+        console.warn("No se creó cuenta (posible email ya registrado):", msg);
+      }
+    }
+
     // Crear cita
     type NewAppointment = typeof appointments.$inferInsert;
     const payload: NewAppointment = {
       userId,
-      clientId: reqRow.clientId ?? null,
+      clientId: effectiveClientId,
       clientName: reqRow.clientName ?? null,
       clientEmail: reqRow.clientEmail ?? null,
       startAt,
@@ -176,10 +223,10 @@ export async function POST(_req: Request, context: { params: Promise<{ id: strin
     // Asociar servicio
     await db.insert(appointmentServices).values({ appointmentId: appt.id, serviceId });
 
-    // Marcar solicitud como programada
+    // Marcar solicitud como programada (y enlazar cliente si se creó)
     const [updatedReq] = await db
       .update(appointmentRequests)
-      .set({ status: "programada", updatedAt: new Date() })
+      .set({ status: "programada", updatedAt: new Date(), clientId: effectiveClientId })
       .where(eq(appointmentRequests.id, reqRow.id))
       .returning();
 
@@ -195,11 +242,31 @@ export async function POST(_req: Request, context: { params: Promise<{ id: strin
       const startStr = startAt.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit", hour12: false });
       const endStr = endAt.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit", hour12: false });
 
-      const subject = "Confirmación de cita — Fideslex";
-      const text = `Hola ${reqRow.clientName},\n\nTu cita para ${svcName} ha sido registrada correctamente.\nFecha: ${dateStr}\nHorario: ${startStr} – ${endStr}\nAsesor: ${advisorName}\n\nSi necesitas reprogramar o cancelar, responde a este correo o visita tu panel.\n\nGracias,\nEquipo Fideslex`;
-
       const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? process.env.BETTER_AUTH_URL ?? "http://localhost:3000";
       const dashboardUrl = `${appUrl}/dashboard/cliente`;
+      const signInUrl = `${appUrl}/sign-in`;
+
+      const subject = "Confirmación de cita — Fideslex";
+
+      const extraAccountHtml = accountCreated && generatedPassword
+        ? `
+          <div style="border-top:1px solid #eaeaea;margin:16px 0"></div>
+          <h2 style="margin:0 0 8px;font-size:18px;font-weight:600">Tu cuenta fue creada</h2>
+          <p style="margin:0 0 12px;font-size:14px;color:#555;line-height:1.6;">Hemos creado una cuenta para ti usando tu correo <strong>${reqRow.clientEmail}</strong>.</p>
+          <div style="font-size:14px;color:#333;display:flex;flex-direction:column;gap:6px;">
+            <div><strong>Usuario:</strong> ${reqRow.clientEmail}</div>
+            <div><strong>Contraseña temporal:</strong> ${generatedPassword}</div>
+          </div>
+          <p style="margin:12px 0;font-size:14px;color:#555;line-height:1.6;">Por seguridad, te recomendamos iniciar sesión y cambiar tu contraseña.</p>
+          <a href="${signInUrl}" style="display:inline-block;background:#111;color:#fff;text-decoration:none;padding:8px 14px;border-radius:10px;font-size:14px;">Iniciar sesión</a>
+        `
+        : "";
+
+      const textExtra = accountCreated && generatedPassword
+        ? `\n\nHemos creado una cuenta para ti.\nUsuario: ${reqRow.clientEmail}\nContraseña temporal: ${generatedPassword}\nInicia sesión en ${signInUrl} y cámbiala por seguridad.`
+        : "";
+
+      const text = `Hola ${reqRow.clientName},\n\nTu cita para ${svcName} ha sido registrada correctamente.\nFecha: ${dateStr}\nHorario: ${startStr} – ${endStr}\nAsesor: ${advisorName}${textExtra}\n\nSi necesitas reprogramar o cancelar, responde a este correo o visita tu panel.\n\nGracias,\nEquipo Fideslex`;
 
       const html = `
         <div style="background:#ffffff;padding:32px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#000000;">
@@ -216,6 +283,7 @@ export async function POST(_req: Request, context: { params: Promise<{ id: strin
                 <div><strong>Horario:</strong> ${startStr} – ${endStr}</div>
                 <div><strong>Asesor:</strong> ${advisorName}</div>
               </div>
+              ${extraAccountHtml}
               <div style="border-top:1px solid #eaeaea;margin:16px 0"></div>
               <p style="margin:0 0 16px;font-size:14px;color:#555;line-height:1.6;">Si necesitas reprogramar o cancelar, puedes hacerlo desde tu panel.</p>
               <a href="${dashboardUrl}" style="display:inline-block;background:#000;color:#fff;text-decoration:none;padding:10px 16px;border-radius:10px;font-size:14px;">Ir al panel</a>
@@ -236,7 +304,7 @@ export async function POST(_req: Request, context: { params: Promise<{ id: strin
       console.warn("Fallo enviando email de confirmación de cita:", message);
     }
 
-    return NextResponse.json({ ok: true, appointment: appt, request: updatedReq, emailSent });
+    return NextResponse.json({ ok: true, appointment: appt, request: updatedReq, emailSent, accountCreated });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("POST /api/solicitudes-citas/[id]/convertir error:", message);

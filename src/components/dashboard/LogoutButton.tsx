@@ -64,6 +64,7 @@ export function LogoutButton() {
   return (
     <Button
       variant="outline"
+      className="h-8 sm:h-9 md:h-10 text-xs sm:text-sm md:text-base px-2 sm:px-3 md:px-4"
       onClick={handleLogout}
       disabled={loading}
     >

@@ -56,7 +56,7 @@ export default async function CasoDetalleClientePage({ params }: { params: { id:
 
   return (
     <div className="container mx-auto px-4 py-6 space-y-6">
-      <div className="flex items-center justify-between" id="tour-caso-encabezado">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" id="tour-caso-encabezado">
         <h1 id="tour-caso-titulo" className="text-2xl font-semibold">{item.nombre}</h1>
         <CasoClienteTour className="relative z-40" />
       </div>

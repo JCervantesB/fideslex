@@ -90,7 +90,7 @@ export default async function NotificationsHistoryPage() {
               </div>
               <div className="flex items-center gap-2">
                 {it.linkUrl && (
-                  <Link href={it.linkUrl} className="text-sm px-3 py-1.5 rounded border hover:bg-muted transition-colors">Abrir caso</Link>
+                  <Link href={it.linkUrl} className="inline-flex items-center rounded-md border px-2 py-1 hover:bg-muted text-xs sm:text-sm sm:px-3 sm:py-2">Abrir caso</Link>
                 )}
               </div>
             </li>
