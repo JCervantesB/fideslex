@@ -19,11 +19,11 @@ async function ensureSchedulesTable() {
   await pool.end();
 }
 
-// Genera 14 slots globales de 30 minutos entre 09:00 y 16:00
+// Genera 48 slots globales de 30 minutos cubriendo 24 horas (00:00 a 24:00)
 function generateHalfHourSlots() {
   const slots: Array<{ startMin: number; endMin: number }> = [];
-  const startDay = 9 * 60; // 540
-  const endDay = 16 * 60; // 960
+  const startDay = 0; // 00:00
+  const endDay = 24 * 60; // 1440 = 24:00
   for (let s = startDay; s + 30 <= endDay; s += 30) {
     slots.push({ startMin: s, endMin: s + 30 });
   }
@@ -31,7 +31,7 @@ function generateHalfHourSlots() {
 }
 
 async function main() {
-  console.log('Seeding schedules globales: 14 slots de 30min 09:00–16:00');
+  console.log('Seeding schedules globales: 48 slots de 30min 00:00–24:00');
 
   await ensureSchedulesTable();
 
