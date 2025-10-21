@@ -1,8 +1,12 @@
 # Usa la imagen base oficial de node (puedes ajustarla si nixpack usa otra distinta)
 FROM node:18-bullseye
 
-# Instala Python3 y herramientas build necesarias
-RUN apt-get update && apt-get install -y python3 build-essential
+# Configura zona horaria del contenedor
+ENV TZ=America/Mazatlan
+
+# Instala tzdata, Python3 y herramientas build necesarias, y fija /etc/localtime
+RUN apt-get update && apt-get install -y tzdata python3 build-essential && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Define la variable de entorno para python en node-gyp
 ENV PYTHON=python3
