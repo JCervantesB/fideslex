@@ -121,10 +121,11 @@ export default function RequestsConverter({ requests, services }: { requests: Re
         desiredStartMin: r.desiredStartMin as number,
         serviceName: r.serviceName as string,
         status: r.status as string,
-        serviceId: target?.id ?? null,
+        // No sincronizar datos de la cita: iniciar en blanco
+        serviceId: null,
         userId: null as string | null,
-        date: dateToYYYYMMDD(r.desiredDate),
-        time: startMinToHHMM(r.desiredStartMin),
+        date: "",
+        time: "",
         converting: false,
         done: false,
         error: null as string | null,
@@ -193,11 +194,11 @@ export default function RequestsConverter({ requests, services }: { requests: Re
 
       {/* Vista móvil: tarjetas */}
       <div className="md:!hidden space-y-3">
-        {pageRows.map((row, idx) => (
+        {pageRows.map((row) => (
           <MobileRequestCard
             key={row.id}
             row={row}
-            setRow={(u) => setState((old) => old.map((o, i) => (i === idx ? { ...o, ...u } : o)))}
+            setRow={(u) => setState((old) => old.map((o) => (o.id === row.id ? { ...o, ...u } : o)))}
             services={services}
           />
         ))}
@@ -220,11 +221,11 @@ export default function RequestsConverter({ requests, services }: { requests: Re
             </tr>
           </thead>
           <tbody>
-            {pageRows.map((row, idx) => (
+            {pageRows.map((row) => (
               <RequestRow
                 key={row.id}
                 row={row}
-                setRow={(u) => setState((old) => old.map((o, i) => (i === idx ? { ...o, ...u } : o)))}
+                setRow={(u) => setState((old) => old.map((o) => (o.id === row.id ? { ...o, ...u } : o)))}
                 services={services}
               />
             ))}
@@ -435,7 +436,11 @@ function RequestRow({ row, setRow, services }: { row: Row; setRow: (u: Partial<R
                       <button
                         key={s.start}
                         type="button"
-                        className={`px-3 py-1 border rounded text-xs ${row.time === val ? "bg-muted" : ""}`}
+                        className={`px-3 py-1 border rounded text-xs transition-colors ${
+                          row.time === val 
+                            ? "bg-primary text-primary-foreground border-primary shadow-sm" 
+                            : "hover:bg-muted/50"
+                        }`}
                         onClick={() => setRow({ time: val })}
                       >
                         {val}
@@ -637,7 +642,11 @@ function MobileRequestCard({ row, setRow, services }: { row: Row; setRow: (u: Pa
                     <button
                       key={s.start}
                       type="button"
-                      className={`px-3 py-1 border rounded text-xs ${row.time === val ? "bg-muted" : ""}`}
+                      className={`px-3 py-1 border rounded text-xs transition-colors ${
+                        row.time === val 
+                          ? "bg-primary text-primary-foreground border-primary shadow-sm" 
+                          : "hover:bg-muted/50"
+                      }`}
                       onClick={() => setRow({ time: val })}
                     >
                       {val}
