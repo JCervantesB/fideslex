@@ -79,18 +79,11 @@ export const Services = () => {
     <section id="servicios" className="py-2 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <div className="inline-block mb-4 px-6 py-2 bg-primary/10 rounded-full">
+          <div className="inline-block mb-2 px-6 py-2 bg-primary/10 rounded-full">
             <p className="text-primary font-semibold text-lg">
               Nuestros Servicios
             </p>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Respaldo Legal Especializado
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Nuestra firma está aliada a un despacho legal confiable, garantizando 
-            soluciones integrales y seguras para nuestros clientes.
-          </p>
+          </div>    
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -33,7 +33,7 @@ export const Hero = () => {
           <div className="mb-6 flex items-center gap-3">
             <div className="inline-block px-6 py-2 gradient-accent rounded-full">
               <p className="text-secondary-foreground font-semibold text-lg">
-                Asesoría Legal 100% Online
+                Asesoría 100% Online
               </p>
             </div>
             <HomeTour className="inline-block" />
