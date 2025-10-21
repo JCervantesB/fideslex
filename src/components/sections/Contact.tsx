@@ -253,10 +253,10 @@ export const Contact = () => {
               </CardContent>
             </Card>
 
-            <Card className="gradient-accent border-none">
+            <Card className="gradient-hero border-none">
               <CardContent className="p-6 text-center">
-                <h3 className="text-xl font-bold text-secondary-foreground mb-2">Consulta Inicial Gratuita</h3>
-                <p className="text-base text-secondary-foreground/80">Primera asesoría sin costo para conocer tu caso</p>
+                <h3 className="text-xl font-bold text-black mb-2">Consulta Gratuita</h3>
+                <p className="text-base text-black/80">Primera asesoría sin costo para conocer tu caso</p>
               </CardContent>
             </Card>
           </div>

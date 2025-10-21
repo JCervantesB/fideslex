@@ -35,8 +35,8 @@ export const About = () => {
           {/* Vision */}
           <Card className="gradient-card border-2 border-secondary/20 hover:shadow-xl transition-smooth">
             <CardContent className="p-8">
-              <div className="w-16 h-16 gradient-accent rounded-xl flex items-center justify-center mb-6">
-                <Eye className="w-8 h-8 text-secondary-foreground" />
+              <div className="w-16 h-16 gradient-hero rounded-xl flex items-center justify-center mb-6">
+                <Eye className="w-8 h-8 text-primary-foreground" />
               </div>
               <h3 className="text-3xl font-bold mb-4 text-secondary">Visión</h3>
               <p className="text-lg text-muted-foreground leading-relaxed">
@@ -56,7 +56,7 @@ export const About = () => {
             </div>
             <div className="flex-1">
               <h3 className="text-3xl font-bold mb-4">
-                Respaldo Legal Especializado
+                Respaldo Legal
               </h3>
               <p className="text-xl text-muted-foreground leading-relaxed mb-6">
                 Nuestra firma está aliada a un despacho legal confiable, lo que 

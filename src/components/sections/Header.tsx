@@ -58,8 +58,10 @@ export const Header = () => {
         <div className="flex items-center justify-between">
 
           {/* Logo y marca */}
-          <div className="flex items-center gap-3">
-            <Image src="/logo.png" alt="FidesLex" width={100} height={100} className="rounded-lg object-contain" priority />
+          <div className="flex items-center gap-3 ">
+            <div className="w-[100px] h-[70px] gradient-hero rounded-lg flex items-center justify-center">
+              <Image src="/logo.png" alt="FidesLex" width={100} height={100} className="object-contain" priority />
+            </div>
             <div>
               <h1 className="font-bold text-2xl text-primary hover:text-primary-light">Fídex Lex Asesoría</h1>
             </div>

@@ -31,8 +31,8 @@ export const Hero = () => {
         {/* HomeTour colocado junto al badge */}
         <div className="max-w-3xl">
           <div className="mb-6 flex items-center gap-3">
-            <div className="inline-block px-6 py-2 gradient-accent rounded-full">
-              <p className="text-secondary-foreground font-semibold text-lg">
+            <div className="inline-block px-6 py-2 gradient-hero rounded-full">
+              <p className="text-primary-foreground font-semibold text-lg">
                 Asesoría 100% Online
               </p>
             </div>
@@ -46,12 +46,12 @@ export const Hero = () => {
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed max-w-2xl">
-            Brindamos asesoría jurídica especializada con un enfoque amigable 
+            Brindamos respaldo legal con un enfoque amigable 
             y accesible. 
             Servicios profesionales desde la comodidad de tu hogar.
           </p>
 
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 md:gap-4 w-full">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center text-black gap-3 md:gap-4 w-full">
             <Button 
               variant="hero" 
               size="xl"

@@ -3,25 +3,25 @@
 
 :root {
   /* Base color system in HSL (for Tailwind tokens) */
-  --background: 0 0% 100%;
+  --background: 120 4% 91%;
   --foreground: 217 33% 17%;
 
-  --card: 0 0% 100%;
+  --card: 120 4% 91%;
   --card-foreground: 217 33% 17%;
 
-  --popover: 0 0% 100%;
+  --popover: 120 4% 91%;
   --popover-foreground: 217 33% 17%;
 
   /* Primary and variants */
-  --primary: 217 91% 20%;
-  --primary-foreground: 0 0% 100%;
-  --primary-light: 217 91% 35%;
-  --primary-lighter: 217 91% 60%;
+  --primary: 31 41% 56%; /* #BD9060 */
+  --primary-foreground: 217 33% 17%;
+  --primary-light: 31 41% 66%;
+  --primary-lighter: 31 41% 76%;
 
   /* Secondary (gold accent) */
-  --secondary: 38 92% 50%;
+  --secondary: 33 55% 75%; /* #E3C39D */
   --secondary-foreground: 217 33% 17%;
-  --secondary-light: 38 92% 65%;
+  --secondary-light: 33 55% 83%;
 
   /* Muted / accent / destructive */
   --muted: 217 10% 95%;
@@ -36,11 +36,11 @@
   /* UI tokens */
   --border: 217 20% 88%;
   --input: 217 20% 90%;
-  --ring: 217 91% 20%;
+  --ring: 31 41% 56%;
 
   /* Gradients */
   --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-light)) 100%);
-  --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(217 10% 98%) 100%);
+  --gradient-card: linear-gradient(145deg, hsl(120 4% 91%) 0%, hsl(217 10% 98%)) 100%;
   --gradient-accent: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--secondary-light)) 100%);
 
   /* Shadows */
@@ -113,7 +113,7 @@
   --input: 217 33% 20%;
   --ring: 217 91% 60%;
 
-  --gradient-hero: linear-gradient(135deg, hsl(217 91% 25%) 0%, hsl(217 91% 40%) 100%);
+  --gradient-hero: linear-gradient(135deg, hsl(31 41% 56%) 0%, hsl(31 41% 66%) 100%);
   --gradient-card: linear-gradient(145deg, hsl(217 33% 12%) 0%, hsl(217 33% 15%) 100%);
   --gradient-accent: linear-gradient(135deg, hsl(38 92% 55%) 0%, hsl(38 92% 70%) 100%);
 
@@ -242,7 +242,7 @@ thead tr {
   color: hsl(var(--primary));
 }
 
-/* Overlay tint in brand primary (blue) */
+/* Overlay tint in brand primary */
 .driver-overlay {
   background: hsl(var(--primary) / 0.35) !important;
 }
@@ -250,7 +250,7 @@ thead tr {
 /* Botones del tour: texto negro por defecto, hover en amarillo */
 .driver-popover-footer button,
 .driver-popover-footer .driver-btn {
-  color: hsl(0 0% 0%) !important; /* negro */
+  color: hsl(0 0% 0%) !important;
 }
 
 .driver-popover-footer button:hover,
@@ -259,12 +259,12 @@ thead tr {
 .driver-popover-footer .driver-btn:hover,
 .driver-popover-footer .driver-btn:focus,
 .driver-popover-footer .driver-btn:active {
-  background-color: hsl(var(--secondary)) !important; /* amarillo */
-  color: hsl(0 0% 0%) !important; /* negro */
+  background-color: hsl(var(--secondary)) !important;
+  color: hsl(0 0% 0%) !important;
   border-color: hsl(var(--secondary)) !important;
 }
 
-/* Variante secundaria: texto negro y hover amarillo */
+/* Variante secundaria */
 .driver-popover-footer .driver-btn-secondary {
   color: hsl(0 0% 0%) !important;
   border-color: hsl(var(--secondary)) !important;
@@ -286,3 +286,114 @@ thead tr {
   background-color: hsl(var(--primary) / 0.08) !important;
   color: hsl(var(--primary)) !important;
 }
+
+/* Overrides específicos: botones y enlaces en modo oscuro con colores de lightmode */
+.dark button,
+.dark [role="button"],
+.dark .btn,
+.dark .button {
+  /* default buttons: primario BD9060 con texto claro */
+  &.bg-primary {
+    background-color: hsl(31 41% 56%) !important; /* #BD9060 */
+  }
+  &.hover\:bg-primary-light:hover {
+    background-color: hsl(31 41% 66%) !important; /* lighten */
+  }
+  &.text-primary-foreground {
+    color: hsl(0 0% 100%) !important; /* blanco para contraste */
+  }
+  /* variante secundaria en botones: gradiente usando E3C39D->E6E8E6 */
+  &.gradient-accent {
+    background-image: linear-gradient(135deg, hsl(33 55% 75%) 0%, hsl(120 4% 91%) 100%) !important; /* #E3C39D a #E6E8E6 */
+    color: hsl(0 0% 0%) !important; /* texto oscuro sobre gradiente claro */
+  }
+  /* botones hero con gradiente primario -> E6E8E6 */
+  &.gradient-hero {
+    background-image: radial-gradient(circle at 20% 20%, hsl(31 41% 56% / 0.28) 0%, hsl(120 4% 91% / 0) 45%, transparent 60%) !important;
+    color: hsl(0 0% 0%) !important;
+  }
+}
+
+/* Enlaces: usar secundario del lightmode */
+.dark a,
+.dark .link {
+  color: hsl(33 55% 75%) !important; /* #E3C39D */
+}
+.dark a:hover,
+.dark .link:hover {
+  color: hsl(33 55% 83%) !important; /* lighten */
+  text-decoration-color: hsl(33 55% 75%) !important;
+}
+
+/* Overrides específicos: textos en modo oscuro usando colores de lightmode */
+.dark .text-primary {
+  color: hsl(31 41% 56%) !important; /* #BD9060 */
+}
+.dark .text-primary-light {
+  color: hsl(31 41% 66%) !important; /* lighten */
+}
+.dark .hover\:text-primary-light:hover {
+  color: hsl(31 41% 66%) !important; /* lighten */
+}
+
+/* Override en dark para text-gradient usando colores de lightmode */
+.dark .text-gradient {
+  background-image: linear-gradient(to right, hsl(31 41% 56%), hsl(31 41% 66%)) !important; /* #BD9060 -> #D7B08A */
+}
+.dark a,
+.dark .link {
+  color: hsl(33 55% 75%) !important; /* #E3C39D */
+}
+.dark a:hover,
+.dark .link:hover {
+  color: hsl(33 55% 83%) !important; /* lighten */
+  text-decoration-color: hsl(33 55% 75%) !important;
+}
+
+button.gradient-hero,
+[role="button"].gradient-hero,
+.btn.gradient-hero,
+.button.gradient-hero {
+  /* Refuerzo de contraste en lightmode: gradiente lineal + resalte radial */
+  background-image: radial-gradient(circle at 20% 20%, hsl(31 41% 56% / 0.25) 0%, transparent 55%),
+    linear-gradient(135deg, hsl(31 41% 56%) 0%, hsl(31 41% 66%) 100%);
+}
+.dark button,
+.dark [role="button"],
+.dark .btn,
+.dark .button {
+  /* default buttons: primario BD9060 con texto claro */
+  &.bg-primary {
+    background-color: hsl(31 41% 56%) !important; /* #BD9060 */
+  }
+  &.hover\:bg-primary-light:hover {
+    background-color: hsl(31 41% 66%) !important; /* lighten */
+  }
+  &.text-primary-foreground {
+    color: hsl(0 0% 100%) !important; /* blanco para contraste */
+  }
+  /* variante secundaria en botones: gradiente usando E3C39D->E6E8E6 */
+  &.gradient-accent {
+    background-image: linear-gradient(135deg, hsl(33 55% 75%) 0%, hsl(120 4% 91%) 100%) !important; /* #E3C39D a #E6E8E6 */
+    color: hsl(0 0% 0%) !important; /* texto oscuro sobre gradiente claro */
+  }
+  /* botones hero con gradiente primario -> E6E8E6 */
+  &.gradient-hero {
+    /* Aumentar visibilidad del gradiente en dark: capa radial + base lineal */
+    background-image: radial-gradient(circle at 20% 20%, hsl(31 41% 56% / 0.32) 0%, transparent 55%),
+      linear-gradient(135deg, hsl(31 41% 56%) 0%, hsl(31 41% 66%) 100%) !important;
+    color: hsl(0 0% 0%) !important;
+  }
+}
+
+/* Enlaces: usar secundario del lightmode */
+.dark a,
+.dark .link {
+  color: hsl(33 55% 75%) !important; /* #E3C39D */
+}
+.dark a:hover,
+.dark .link:hover {
+  color: hsl(33 55% 83%) !important; /* lighten */
+  text-decoration-color: hsl(33 55% 75%) !important;
+}
+
