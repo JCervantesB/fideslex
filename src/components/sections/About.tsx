@@ -1,4 +1,4 @@
-import { Target, Eye, Shield } from "lucide-react";
+import { Target, Eye } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const About = () => {
@@ -52,7 +52,7 @@ export const About = () => {
         <div className="bg-primary/5 rounded-2xl p-8 md:p-12 border border-primary/10">
           <div className="flex flex-col md:flex-row items-start gap-6">
             <div className="w-20 h-20 gradient-hero rounded-2xl flex items-center justify-center flex-shrink-0">
-              <Shield className="w-10 h-10 text-primary-foreground" />
+              <img src="/asa.jpeg" alt="Aliado ASA" className="w-10 h-10 rounded-md object-cover" /> 
             </div>
             <div className="flex-1">
               <h3 className="text-3xl font-bold mb-4">

@@ -24,7 +24,7 @@ export default function Home() {
         <section aria-label="Instituciones y aliados" className="mt-24">
           <div className="mx-auto max-w-6xl px-4">
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8 items-center">
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-2 rounded-xl">
                 <img
                   src="/banner1.webp"
                   alt="Banner 1"
@@ -32,7 +32,7 @@ export default function Home() {
                 />
                 <a href="#" className="text-sm text-slate-700 hover:text-slate-900 hover:underline">Leer más</a>
               </div>
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-2 rounded-xl">
                 <img
                   src="/banner2.webp"
                   alt="Banner 2"
@@ -40,7 +40,7 @@ export default function Home() {
                 />
                 <a href="#" className="text-sm text-slate-700 hover:text-slate-900 hover:underline">Leer más</a>
               </div>
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-2 rounded-xl">
                 <img
                   src="/banner3.webp"
                   alt="Banner 3"
@@ -48,7 +48,7 @@ export default function Home() {
                 />
                 <a href="#" className="text-sm text-slate-700 hover:text-slate-900 hover:underline">Leer más</a>
               </div>
-              <div className="flex flex-col items-center gap-2">
+              <div className="flex flex-col items-center gap-2 rounded-xl">
                 <img
                   src="/banner4.webp"
                   alt="Banner 4"

@@ -11,12 +11,11 @@ export const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 gradient-accent rounded-lg flex items-center justify-center">
-                <Image src="/logo.png" alt="Logo" width={24} height={24} className="object-contain" />
+              <div className="w-28 h-w-28 gradient-accent rounded-lg flex items-center justify-center">
+                <Image src="/logo.png" alt="Logo" width={120} height={120} className="object-contain" />
               </div>
               <div>
-                <h3 className="text-xl font-bold">Asesoría Jurídica</h3>
-                <p className="text-sm text-background/70">Servicios Jurídicos Especializados</p>
+                <h3 className="text-xl font-bold">Fídes Lex Asesoría</h3>
               </div>
             </div>
             <p className="text-background/70 text-base mb-4">
@@ -83,7 +82,7 @@ export const Footer = () => {
         </div>
 
         <div className="border-t border-background/10 pt-8 text-center">
-          <p className="text-background/70 text-base">© {currentYear} Fídes Lex. Todos los derechos reservados.</p>
+          <p className="text-background/70 text-base">© {currentYear} Fídes Lex Asesoría. Todos los derechos reservados</p>
         </div>
       </div>
     </footer>

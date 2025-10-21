@@ -47,7 +47,7 @@ export const Hero = () => {
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed max-w-2xl">
             Brindamos asesoría jurídica especializada con un enfoque amigable 
-            y accesible, especialmente diseñado para adultos mayores. 
+            y accesible. 
             Servicios profesionales desde la comodidad de tu hogar.
           </p>
 
@@ -69,10 +69,6 @@ export const Hero = () => {
               <div>
                 <p className="text-3xl font-bold text-primary mb-1">100%</p>
                 <p className="text-muted-foreground text-lg">Online</p>
-              </div>
-              <div>
-                <p className="text-3xl font-bold text-primary mb-1">+500</p>
-                <p className="text-muted-foreground text-lg">Casos Exitosos</p>
               </div>
               <div>
                 <p className="text-3xl font-bold text-primary mb-1">24/7</p>

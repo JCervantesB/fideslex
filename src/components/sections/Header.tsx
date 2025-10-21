@@ -59,10 +59,9 @@ export const Header = () => {
 
           {/* Logo y marca */}
           <div className="flex items-center gap-3">
-            <Image src="/logo.png" alt="FidesLex" width={48} height={48} className="rounded-lg object-contain" priority />
+            <Image src="/logo.png" alt="FidesLex" width={100} height={100} className="rounded-lg object-contain" priority />
             <div>
-              <h1 className="font-bold text-xl text-secondary hover:text-secondary-light">Fídex Lex</h1>
-              <p className="text-xs text-muted-foreground">Asesoría Jurídica Especializada</p>
+              <h1 className="font-bold text-2xl text-primary hover:text-primary-light">Fídex Lex Asesoría</h1>
             </div>
           </div>
 

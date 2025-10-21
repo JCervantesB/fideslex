@@ -71,7 +71,7 @@ export const Contact = () => {
           <div className="inline-block mb-4 px-6 py-2 bg-primary/10 rounded-full">
             <p className="text-primary font-semibold text-lg">Contáctanos</p>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Agenda tu Consulta Gratuita</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">Agenda tu Consulta</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Estamos listos para ayudarte. Completa el formulario y nos comunicaremos contigo lo antes posible.
           </p>
