@@ -223,7 +223,7 @@ export const Contact = () => {
                     <p className="text-muted-foreground text-base">
                       100% Online
                       <br />
-                      Servicios en toda la República
+                      Servicios en Ensenada, Baja California
                     </p>
                   </div>
                 </div>
