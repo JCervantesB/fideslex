@@ -1,11 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, ShieldCheck, Plane, CreditCard, FileCheck, UserCheck } from "lucide-react";
-import Image from "next/image";
+import { FileText, ShieldCheck, ClipboardList, CreditCard, FileCheck, UserCheck } from "lucide-react";
 
 const services = [
   {
     icon: ShieldCheck,
-    image: "/service-trademark.png",
     title: "Registro de Marca",
     description: "Protege tu marca/logo con nuestro servicio completo de registro",
     features: [
@@ -17,7 +15,6 @@ const services = [
   },
   {
     icon: FileText,
-    image: "/service-documents.png",
     title: "Actas en Línea",
     description: "Generación y corrección de actas oficiales de manera rápida y sencilla",
     features: [
@@ -28,8 +25,7 @@ const services = [
     ]
   },
   {
-    icon: Plane,
-    image: "/service-passport.png",
+    icon: ClipboardList,
     title: "Trámites Oficiales",
     description: "Te ayudamos con todos tus trámites gubernamentales",
     features: [
@@ -93,19 +89,9 @@ export const Services = () => {
             >
               <CardHeader>
                 <div className="flex items-start justify-between mb-4">
-                  {service.image ? (
-                    <Image 
-                      src={service.image} 
-                      alt={service.title}
-                      width={64} 
-                      height={64}
-                      className="rounded-xl object-cover"
-                    />
-                  ) : (
-                    <div className="w-16 h-16 gradient-hero rounded-xl flex items-center justify-center">
-                      <service.icon className="w-8 h-8 text-primary-foreground" />
-                    </div>
-                  )}
+                  <div className="w-16 h-16 gradient-hero rounded-xl flex items-center justify-center">
+                    <service.icon className="w-8 h-8 text-primary-foreground" />
+                  </div>
                 </div>
                 <CardTitle className="text-2xl mb-2">{service.title}</CardTitle>
                 <CardDescription className="text-base text-muted-foreground">
