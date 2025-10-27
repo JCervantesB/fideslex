@@ -16,14 +16,15 @@ export const Hero = () => {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <Image 
-          src="/hero-legal.jpg" 
+          src="/hero.jpg" 
           alt="Asesoría legal profesional"
           fill
           priority
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/85 to-background/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/85 to-background/10" />
+        <div className="absolute inset-0 bg-black/15 dark:hidden" />
       </div>
 
       {/* Content */}
@@ -51,7 +52,7 @@ export const Hero = () => {
             Servicios profesionales desde la comodidad de tu hogar.
           </p>
 
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center text-black gap-3 md:gap-4 w-full">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center text-primary-foreground gap-3 md:gap-4 w-full">
             <Button 
               variant="hero" 
               size="xl"
@@ -64,7 +65,7 @@ export const Hero = () => {
           </div>
 
           {/* Trust Indicators */}
-          <div className="mt-12 pt-12 border-t border-border/50">
+          {/* <div className="mt-12 pt-12 border-t border-border/50">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <div>
                 <p className="text-3xl font-bold text-primary mb-1">100%</p>
@@ -75,7 +76,7 @@ export const Hero = () => {
                 <p className="text-muted-foreground text-lg">Disponibilidad</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

@@ -1,47 +1,45 @@
 @import "tailwindcss";
 @import "react-big-calendar/lib/css/react-big-calendar.css";
 
+/* --- VARIABLES BASE PARA PALETA CORPORATIVA --- */
 :root {
-  /* Base color system in HSL (for Tailwind tokens) */
-  --background: 120 4% 91%;
-  --foreground: 217 33% 17%;
+  /* Base light mode: fondo claro, texto oscuro */
+  --background: 217 42% 89%; /* #D9E1F1 */
+  --foreground: 217 33% 17%; /* #192338 (oscuro, legible sobre fondo claro) */
 
-  --card: 120 4% 91%;
+  --card: 217 42% 98%;                 /* Un poco más claro que el fondo base */
   --card-foreground: 217 33% 17%;
 
-  --popover: 120 4% 91%;
+  --popover: 217 42% 95%;
   --popover-foreground: 217 33% 17%;
 
-  /* Primary and variants */
-  --primary: 31 41% 56%; /* #BD9060 */
-  --primary-foreground: 217 33% 17%;
-  --primary-light: 31 41% 66%;
-  --primary-lighter: 31 41% 76%;
+  --primary: 217 33% 17%;              /* #192338 (corporativo) */
+  --primary-foreground: 0 0% 100%;     /* blanco puro sobre botones/acento */
+  --primary-light: 217 33% 27%;        /* para hover */
+  --primary-lighter: 217 33% 37%;
 
-  /* Secondary (gold accent) */
-  --secondary: 33 55% 75%; /* #E3C39D */
-  --secondary-foreground: 217 33% 17%;
-  --secondary-light: 33 55% 83%;
+  --secondary: 217 42% 33%;            /* #31487A */
+  --secondary-foreground: 0 0% 100%;   /* blanco puro en botones secundarios */
+  --secondary-light: 217 42% 43%;
 
-  /* Muted / accent / destructive */
-  --muted: 217 10% 95%;
-  --muted-foreground: 217 20% 40%;
+  --muted: 217 42% 95%;                /* para detalles de UI */
+  --muted-foreground: 217 33% 40%;
 
-  --accent: 142 76% 36%;
+  --accent: 217 62% 56%;
   --accent-foreground: 0 0% 100%;
 
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
 
-  /* UI tokens */
-  --border: 217 20% 88%;
-  --input: 217 20% 90%;
-  --ring: 31 41% 56%;
+  --border: 217 42% 85%;
+  --input: 217 42% 87%;
+  --ring: 217 33% 17%;
 
   /* Gradients */
   --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-light)) 100%);
-  --gradient-card: linear-gradient(145deg, hsl(120 4% 91%) 0%, hsl(217 10% 98%)) 100%;
+  --gradient-card: linear-gradient(145deg, hsl(217 42% 89%) 0%, hsl(217 42% 98%) 100%);
   --gradient-accent: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--secondary-light)) 100%);
+  --gradient-hero-hover: linear-gradient(135deg, hsl(var(--primary-light)) 0%, hsl(var(--primary)) 100%);
 
   /* Shadows */
   --shadow-sm: 0 2px 8px hsla(217, 91%, 20%, 0.08);
@@ -54,6 +52,50 @@
   --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* --- VARIABLES ESPECÍFICAS PARA DARK MODE --- */
+.dark {
+  --background: 217 33% 13%; /* Azul oscuro profundo */
+  --foreground: 220 20% 96%; /* Gris MUY claro, legible sobre fondo oscuro */
+
+  --card: 217 33% 16%;              /* Ligeramente más claro para layers */
+  --card-foreground: 220 20% 96%;
+
+  --popover: 217 33% 14%;
+  --popover-foreground: 220 20% 96%;
+
+  --primary: 217 91% 60%;           /* Un azul luminoso/acento, NUNCA para texto base */
+  --primary-foreground: 217 33% 13%;/* Azul oscuro para texto sobre botones en dark */
+  --primary-light: 217 91% 70%;
+  --primary-lighter: 217 91% 80%;
+
+  --secondary: 217 43% 34%;
+  --secondary-foreground: 220 20% 96%;
+  --secondary-light: 217 43% 42%;
+
+  --muted: 217 33% 18%;
+  --muted-foreground: 220 20% 65%;
+
+  --accent: 217 62% 46%;
+  --accent-foreground: 220 20% 96%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 217 33% 22%;
+  --input: 217 33% 20%;
+  --ring: 217 91% 60%;
+
+  --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-light)) 100%);
+  --gradient-card: linear-gradient(145deg, hsl(217 33% 13%) 0%, hsl(217 33% 16%) 100%);
+  --gradient-accent: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--secondary-light)) 100%);
+
+  --shadow-sm: 0 2px 8px hsla(0, 0%, 0%, 0.3);
+  --shadow-md: 0 4px 16px hsla(0, 0%, 0%, 0.4);
+  --shadow-lg: 0 8px 32px hsla(0, 0%, 0, 0.5);
+  --shadow-xl: 0 12px 48px hsla(0, 0%, 0%, 0.6);
+}
+
+/* --- TOKENS PARA UTILERÍAS TAILWIND & CSS VARIABLES --- */
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -81,52 +123,12 @@
   --font-mono: var(--font-geist-mono);
 }
 
-.dark {
-  --background: 217 33% 10%;
-  --foreground: 0 0% 98%;
-
-  --card: 217 33% 12%;
-  --card-foreground: 0 0% 98%;
-
-  --popover: 217 33% 12%;
-  --popover-foreground: 0 0% 98%;
-
-  --primary: 217 91% 60%;
-  --primary-foreground: 217 33% 10%;
-  --primary-light: 217 91% 70%;
-  --primary-lighter: 217 91% 80%;
-
-  --secondary: 38 92% 55%;
-  --secondary-foreground: 217 33% 10%;
-  --secondary-light: 38 92% 70%;
-
-  --muted: 217 33% 18%;
-  --muted-foreground: 217 10% 65%;
-
-  --accent: 142 76% 45%;
-  --accent-foreground: 0 0% 100%;
-
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 100%;
-
-  --border: 217 33% 22%;
-  --input: 217 33% 20%;
-  --ring: 217 91% 60%;
-
-  --gradient-hero: linear-gradient(135deg, hsl(31 41% 56%) 0%, hsl(31 41% 66%) 100%);
-  --gradient-card: linear-gradient(145deg, hsl(217 33% 12%) 0%, hsl(217 33% 15%) 100%);
-  --gradient-accent: linear-gradient(135deg, hsl(38 92% 55%) 0%, hsl(38 92% 70%) 100%);
-
-  --shadow-sm: 0 2px 8px hsla(0, 0%, 0%, 0.3);
-  --shadow-md: 0 4px 16px hsla(0, 0%, 0%, 0.4);
-  --shadow-lg: 0 8px 32px hsla(0, 0%, 0, 0.5);
-  --shadow-xl: 0 12px 48px hsla(0, 0%, 0%, 0.6);
-}
-
+/* --- CSS BASE PARA TIPOGRAFÍA, FONDOS Y BORDES --- */
 body {
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background 0.3s, color 0.3s;
 }
 
 * {
@@ -136,29 +138,52 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   letter-spacing: -0.015em;
+  color: var(--color-foreground);
 }
 
+/* --- ACCESIBILIDAD EN FOCUSED STATES --- */
 *:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px var(--color-ring);
   transition: var(--transition-base);
 }
 
-/* Utilities */
+/* --- UTILIDADES DE GRADIENTES Y SHADOWS --- */
 .text-gradient {
   background-image: linear-gradient(to right, var(--color-primary), var(--color-primary-light));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
-.gradient-hero { background: var(--gradient-hero); }
+.logo-mask {
+  -webkit-mask-image: url('/logo.svg');
+  mask-image: url('/logo.svg');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background-color: currentColor;
+  display: block;
+}
+
+.gradient-hero {
+  background: var(--gradient-hero);
+  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 .gradient-card { background: var(--gradient-card); }
 .gradient-accent { background: var(--gradient-accent); }
 .shadow-elegant { box-shadow: var(--shadow-lg); }
 .transition-base { transition: var(--transition-base); }
 .transition-smooth { transition: var(--transition-smooth); }
+.gradient-hero-hover {
+  background: linear-gradient(135deg, hsl(var(--primary-light)) 0%, hsl(var(--primary)) 100%);
+  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-/* react-big-calendar dark mode overrides */
+
+/* --- ESTILOS PARA react-big-calendar DARK MODE --- */
 .dark .rbc-calendar {
   background-color: var(--color-background);
   color: var(--color-foreground);
@@ -195,7 +220,7 @@ h1, h2, h3, h4, h5, h6 {
   border: none;
 }
 
-/* Table header defaults: ensure readable contrast in all themes */
+/* --- TABLAS --- */
 thead th {
   background-color: var(--color-muted);
   color: var(--color-foreground);
@@ -204,196 +229,27 @@ thead tr {
   border-bottom: 1px solid var(--color-border);
 }
 
-/* Driver.js brand overrides */
-.driver-popover {
-  border: 2px solid hsl(var(--secondary));
-  box-shadow: var(--shadow-md);
+/* --- UTILIDADES DE BOTÓN Y LINKS --- */
+a, .link {
+  color: var(--color-primary);
+}
+a:hover, .link:hover {
+  color: var(--color-secondary);
+  text-decoration-color: var(--color-primary);
+}
+.dark a, .dark .link {
+  color: var(--color-secondary);
+}
+.dark a:hover, .dark .link:hover {
+  color: var(--color-primary);
+  text-decoration-color: var(--color-secondary);
 }
 
-.driver-popover-title {
-  color: hsl(var(--primary));
-}
-
-.driver-popover-description {
-  color: hsl(var(--foreground));
-}
-
-.driver-popover-progress-text {
-  color: hsl(var(--secondary));
-  font-weight: 600;
-}
-
-.driver-popover-footer button {
-  background-color: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-  border-color: transparent;
-}
-.driver-popover-footer button:hover,
-.driver-popover-footer button:focus {
-  background-color: hsl(var(--primary-light));
-  color: hsl(var(--primary-foreground));
-}
-
-.driver-popover-close-btn {
-  color: hsl(var(--primary-lighter));
-}
-.driver-popover-close-btn:hover,
-.driver-popover-close-btn:focus {
-  color: hsl(var(--primary));
-}
-
-/* Overlay tint in brand primary */
-.driver-overlay {
-  background: hsl(var(--primary) / 0.35) !important;
-}
-
-/* Botones del tour: texto negro por defecto, hover en amarillo */
-.driver-popover-footer button,
-.driver-popover-footer .driver-btn {
-  color: hsl(0 0% 0%) !important;
-}
-
-.driver-popover-footer button:hover,
-.driver-popover-footer button:focus,
-.driver-popover-footer button:active,
-.driver-popover-footer .driver-btn:hover,
-.driver-popover-footer .driver-btn:focus,
-.driver-popover-footer .driver-btn:active {
-  background-color: hsl(var(--secondary)) !important;
-  color: hsl(0 0% 0%) !important;
-  border-color: hsl(var(--secondary)) !important;
-}
-
-/* Variante secundaria */
-.driver-popover-footer .driver-btn-secondary {
-  color: hsl(0 0% 0%) !important;
-  border-color: hsl(var(--secondary)) !important;
-}
-.driver-popover-footer .driver-btn-secondary:hover,
-.driver-popover-footer .driver-btn-secondary:focus {
-  background-color: hsl(var(--secondary)) !important;
-  color: hsl(0 0% 0%) !important;
-}
-
-/* Variante secundaria (por si Driver usa clases específicas) */
-.driver-popover-footer .driver-btn-secondary {
-  background-color: transparent !important;
-  color: hsl(var(--primary)) !important;
-  border: 1px solid hsl(var(--primary)) !important;
-}
-.driver-popover-footer .driver-btn-secondary:hover,
-.driver-popover-footer .driver-btn-secondary:focus {
-  background-color: hsl(var(--primary) / 0.08) !important;
-  color: hsl(var(--primary)) !important;
-}
-
-/* Overrides específicos: botones y enlaces en modo oscuro con colores de lightmode */
-.dark button,
-.dark [role="button"],
-.dark .btn,
-.dark .button {
-  /* default buttons: primario BD9060 con texto claro */
-  &.bg-primary {
-    background-color: hsl(31 41% 56%) !important; /* #BD9060 */
-  }
-  &.hover\:bg-primary-light:hover {
-    background-color: hsl(31 41% 66%) !important; /* lighten */
-  }
-  &.text-primary-foreground {
-    color: hsl(0 0% 100%) !important; /* blanco para contraste */
-  }
-  /* variante secundaria en botones: gradiente usando E3C39D->E6E8E6 */
-  &.gradient-accent {
-    background-image: linear-gradient(135deg, hsl(33 55% 75%) 0%, hsl(120 4% 91%) 100%) !important; /* #E3C39D a #E6E8E6 */
-    color: hsl(0 0% 0%) !important; /* texto oscuro sobre gradiente claro */
-  }
-  /* botones hero con gradiente primario -> E6E8E6 */
-  &.gradient-hero {
-    background-image: radial-gradient(circle at 20% 20%, hsl(31 41% 56% / 0.28) 0%, hsl(120 4% 91% / 0) 45%, transparent 60%) !important;
-    color: hsl(0 0% 0%) !important;
-  }
-}
-
-/* Enlaces: usar secundario del lightmode */
-.dark a,
-.dark .link {
-  color: hsl(33 55% 75%) !important; /* #E3C39D */
-}
-.dark a:hover,
-.dark .link:hover {
-  color: hsl(33 55% 83%) !important; /* lighten */
-  text-decoration-color: hsl(33 55% 75%) !important;
-}
-
-/* Overrides específicos: textos en modo oscuro usando colores de lightmode */
-.dark .text-primary {
-  color: hsl(31 41% 56%) !important; /* #BD9060 */
-}
-.dark .text-primary-light {
-  color: hsl(31 41% 66%) !important; /* lighten */
-}
-.dark .hover\:text-primary-light:hover {
-  color: hsl(31 41% 66%) !important; /* lighten */
-}
-
-/* Override en dark para text-gradient usando colores de lightmode */
+/* --- FIX OVERRIDES, NO FUERCES NUNCA TEXTO OSCURO EN DARK! --- */
+.dark .text-primary,
+.dark .text-primary-light,
+.dark .hover\:text-primary-light:hover,
 .dark .text-gradient {
-  background-image: linear-gradient(to right, hsl(31 41% 56%), hsl(31 41% 66%)) !important; /* #BD9060 -> #D7B08A */
+  color: unset !important;
+  background: unset !important;
 }
-.dark a,
-.dark .link {
-  color: hsl(33 55% 75%) !important; /* #E3C39D */
-}
-.dark a:hover,
-.dark .link:hover {
-  color: hsl(33 55% 83%) !important; /* lighten */
-  text-decoration-color: hsl(33 55% 75%) !important;
-}
-
-button.gradient-hero,
-[role="button"].gradient-hero,
-.btn.gradient-hero,
-.button.gradient-hero {
-  /* Refuerzo de contraste en lightmode: gradiente lineal + resalte radial */
-  background-image: radial-gradient(circle at 20% 20%, hsl(31 41% 56% / 0.25) 0%, transparent 55%),
-    linear-gradient(135deg, hsl(31 41% 56%) 0%, hsl(31 41% 66%) 100%);
-}
-.dark button,
-.dark [role="button"],
-.dark .btn,
-.dark .button {
-  /* default buttons: primario BD9060 con texto claro */
-  &.bg-primary {
-    background-color: hsl(31 41% 56%) !important; /* #BD9060 */
-  }
-  &.hover\:bg-primary-light:hover {
-    background-color: hsl(31 41% 66%) !important; /* lighten */
-  }
-  &.text-primary-foreground {
-    color: hsl(0 0% 100%) !important; /* blanco para contraste */
-  }
-  /* variante secundaria en botones: gradiente usando E3C39D->E6E8E6 */
-  &.gradient-accent {
-    background-image: linear-gradient(135deg, hsl(33 55% 75%) 0%, hsl(120 4% 91%) 100%) !important; /* #E3C39D a #E6E8E6 */
-    color: hsl(0 0% 0%) !important; /* texto oscuro sobre gradiente claro */
-  }
-  /* botones hero con gradiente primario -> E6E8E6 */
-  &.gradient-hero {
-    /* Aumentar visibilidad del gradiente en dark: capa radial + base lineal */
-    background-image: radial-gradient(circle at 20% 20%, hsl(31 41% 56% / 0.32) 0%, transparent 55%),
-      linear-gradient(135deg, hsl(31 41% 56%) 0%, hsl(31 41% 66%) 100%) !important;
-    color: hsl(0 0% 0%) !important;
-  }
-}
-
-/* Enlaces: usar secundario del lightmode */
-.dark a,
-.dark .link {
-  color: hsl(33 55% 75%) !important; /* #E3C39D */
-}
-.dark a:hover,
-.dark .link:hover {
-  color: hsl(33 55% 83%) !important; /* lighten */
-  text-decoration-color: hsl(33 55% 75%) !important;
-}
-

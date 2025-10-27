@@ -11,13 +11,14 @@ import { usePathname } from "next/navigation";
 export function AppProviders({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isDashboard = pathname?.startsWith("/dashboard");
+  const isPrivacy = pathname === "/aviso-de-privacidad";
 
   return (
     <ThemeProvider
       attribute="class"
       defaultTheme="light"
-      enableSystem={!isDashboard}
-      forcedTheme={isDashboard ? "light" : undefined}
+      enableSystem={!isDashboard && !isPrivacy}
+      forcedTheme={isDashboard || isPrivacy ? "light" : undefined}
     >
       <TooltipProvider>
         {children}

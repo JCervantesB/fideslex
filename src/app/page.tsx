@@ -11,17 +11,17 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <Hero />
-        <section id="servicios" className="mt-24">
+        <section id="servicios" className="mt-8">
           <Services />
         </section>
-        <section id="nosotros" className="mt-24">
+        <section id="nosotros" className="mt-8">
           <About />
         </section>
-        <section id="contacto" className="mt-24">
+        <section id="contacto" className="mt-8">
           <Contact />
         </section>
         {/* Logos grid before footer */}
-        <section aria-label="Instituciones y aliados" className="mt-24">
+        <section aria-label="Instituciones y aliados" className="mt-8">
           <div className="mx-auto max-w-6xl px-4">
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8 items-center">
               <div className="flex flex-col items-center gap-2 rounded-xl">

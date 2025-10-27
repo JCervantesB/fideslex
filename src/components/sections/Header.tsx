@@ -5,7 +5,7 @@ import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import Logo from "./Logo";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -59,23 +59,23 @@ export const Header = () => {
 
           {/* Logo y marca */}
           <div className="flex items-center gap-3 ">
-            <div className="w-[100px] h-[70px] gradient-hero rounded-lg flex items-center justify-center">
-              <Image src="/logo.png" alt="FidesLex" width={100} height={100} className="object-contain" priority />
+            <div className="w-[100px] h-[70px] rounded-lg flex items-center justify-center">
+              <Logo className="w-[100px] h-[70px] text-primary dark:text-foreground" aria-label="FidesLex" />
             </div>
             <div>
-              <h1 className="font-bold text-2xl text-primary hover:text-primary-light">Fídex Lex Asesoría</h1>
+              <h1 className="font-bold text-2xl text-primary dark:text-foreground hover:text-secondary transition-colors">Fídex Lex Asesoría</h1>
             </div>
           </div>
 
           {/* Navegación escritorio */}
           <nav className="hidden md:!flex items-center gap-6">
-            <button onClick={() => scrollToSection("servicios")} className="text-base text-foreground hover:text-primary transition-base font-medium">
+            <button onClick={() => scrollToSection("servicios")} className="text-base text-foreground hover:text-secondary transition-base font-medium">
               Servicios
             </button>
-            <button onClick={() => scrollToSection("nosotros")} className="text-base text-foreground hover:text-primary transition-base font-medium">
+            <button onClick={() => scrollToSection("nosotros")} className="text-base text-foreground hover:text-secondary transition-base font-medium">
               Nosotros
             </button>
-            <button onClick={() => scrollToSection("contacto")} className="text-base text-foreground hover:text-primary transition-base font-medium">
+            <button onClick={() => scrollToSection("contacto")} className="text-base text-foreground hover:text-secondary transition-base font-medium">
               Contacto
             </button>
             <Button id="btn-agendar-cita" variant="secondary" size="default" onClick={() => scrollToSection("contacto")}>

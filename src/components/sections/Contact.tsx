@@ -237,28 +237,19 @@ export const Contact = () => {
                     <p className="text-muted-foreground text-base">
                       Lunes a Viernes: 9:00 - 18:00
                     </p>
-                  </div>                  
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 gradient-hero rounded-lg flex items-center justify-center flex-shrink-0">
-                    <NotebookPen className="w-6 h-6 text-primary-foreground" />
                   </div>
-                  <div>
-                    <h3 className="font-bold text-lg mb-1">Agenda tu Cita</h3>
-                    <p className="text-muted-foreground text-base">
-                      24/7 disponibles
-                    </p>
-                  </div>                  
                 </div>
+                
               </CardContent>
             </Card>
 
             <Card className="gradient-hero border-none">
               <CardContent className="p-6 text-center">
-                <h3 className="text-xl font-bold text-black mb-2">Consulta Gratuita</h3>
-                <p className="text-base text-black/80">Primera asesoría sin costo para conocer tu caso</p>
+                <h3 className="text-xl font-bold text-white mb-2">Consulta Gratuita</h3>
+                <p className="text-base text-primary-foreground/90">Primera asesoría sin costo para conocer tu caso</p>
               </CardContent>
             </Card>
+
           </div>
         </div>
       </div>

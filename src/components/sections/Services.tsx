@@ -55,7 +55,6 @@ const services = [
     title: "Pagos Flexibles",
     description: "Opciones de pago accesibles para todos nuestros servicios",
     features: [
-      "Planes de pago",
       "Consulta inicial gratuita",
       "Sin costos ocultos",
       "Presupuesto transparente"

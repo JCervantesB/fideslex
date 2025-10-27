@@ -81,6 +81,11 @@ export default function SignUpPage() {
     // Contenedor responsivo y centrado verticalmente; ancho crece en ≥md/≥lg
     <div className="container mx-auto px-4 min-h-[calc(100vh-80px)] py-12 flex items-center">
       <div className="mx-auto w-full max-w-lg md:max-w-xl lg:max-w-2xl">
+        <div className="mb-4">
+          <Button asChild variant="link" className="p-0 h-auto">
+            <Link href="/">← Volver al inicio</Link>
+          </Button>
+        </div>
         <Card className="shadow-elegant">
           <CardHeader>
             <CardTitle>Crear cuenta</CardTitle>
@@ -114,6 +119,14 @@ export default function SignUpPage() {
               <Button type="submit" disabled={loading} className="w-full">
                 {loading ? "Creando cuenta..." : "Registrarme"}
               </Button>
+
+              <p className="text-sm text-muted-foreground text-center">
+                Al registrarte, aceptas nuestro{" "}
+                <Link href="/aviso-de-privacidad" className="underline underline-offset-4 hover:text-primary">
+                  Aviso de Privacidad
+                </Link>
+                .
+              </p>
             </form>
           </CardContent>
           <CardFooter className="justify-center">
