@@ -225,6 +225,46 @@ thead th {
   background-color: var(--color-muted);
   color: var(--color-foreground);
 }
+
+/* --- N8N Chat: forzar fondo azul primario en header/launcher/button --- */
+#n8n-chat [class*="header"],
+#n8n-chat [class*="titlebar"],
+#n8n-chat [class*="launcher"],
+#n8n-chat [class*="toolbar"],
+#n8n-chat button {
+  background-color: var(--color-primary) !important;
+  color: var(--color-primary-foreground) !important;
+  border-color: var(--color-primary) !important;
+}
+
+#n8n-chat [class*="header"] *,
+#n8n-chat [class*="titlebar"] * {
+  color: var(--color-primary-foreground) !important;
+}
+
+/* --- N8N Chat: aplicar fondo al botón launcher con selector específico --- */
+#n8n-chat .chat-window-wrapper .chat-window-toggle {
+  background-color: var(--color-primary) !important;
+  color: var(--color-primary-foreground) !important;
+  border-color: var(--color-primary) !important;
+}
+#n8n-chat .chat-window-wrapper .chat-window-toggle:hover {
+  background-color: var(--color-primary-light) !important;
+}
+
+/* --- N8N Chat: SVG en modo oscuro deben ser blancos --- */
+html.dark #n8n-chat svg,
+[data-theme="dark"] #n8n-chat svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+html.dark #n8n-chat svg *,
+[data-theme="dark"] #n8n-chat svg * {
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
 thead tr {
   border-bottom: 1px solid var(--color-border);
 }
@@ -232,6 +272,8 @@ thead tr {
 td {
   background-color: #ffffff;
 }
+
+/* --- SECCIÓN SERVICIOS (desktop): usar flex con justify-center desde el componente --- */
 
 /* --- UTILIDADES DE BOTÓN Y LINKS --- */
 a, .link {
@@ -257,3 +299,4 @@ a:hover, .link:hover {
   color: unset !important;
   background: unset !important;
 }
+/* --- SECCIÓN SERVICIOS: centrado por spans en 12 columnas (configurado en el componente) --- */

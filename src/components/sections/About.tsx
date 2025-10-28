@@ -6,11 +6,6 @@ export const About = () => {
     <section id="nosotros" className="py-2">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <div className="inline-block mb-4 px-6 py-2 bg-primary/10 rounded-full">
-            <p className="text-primary font-semibold text-lg">
-              Quiénes Somos
-            </p>
-          </div>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Compromiso y Profesionalismo
           </h2>
@@ -25,9 +20,7 @@ export const About = () => {
               </div>
               <h3 className="text-3xl font-bold mb-4 text-primary">Misión</h3>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Brindar asesoría de calidad, comprometiéndonos a resolver los 
-                conflictos de nuestros clientes efectivamente y buscando cumplir 
-                sus necesidades con profesionalismo y dedicación.
+                Brindar asesoría de calidad, comprometiéndonos a resolver los conflictos de nuestros clientes efectivamente y buscando cumplir sus necesidades con atención y dedicación.
               </p>
             </CardContent>
           </Card>
@@ -40,9 +33,7 @@ export const About = () => {
               </div>
               <h3 className="text-3xl font-bold mb-4 text-secondary">Visión</h3>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Ser una firma legal reconocida por nuestro profesionalismo basado 
-                en los valores que nos representan y la atención satisfactoria 
-                que brindamos a nuestros clientes.
+                Ser una firma legal reconocida por la atención especial y satisfactoria qué le brindamos a nuestros clientes, basada siempre en los valores que nos representan.
               </p>
             </CardContent>
           </Card>

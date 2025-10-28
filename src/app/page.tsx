@@ -30,7 +30,7 @@ export default function Home() {
                   alt="Banner 1"
                   className="mx-auto h-16 md:h-20 w-auto object-contain opacity-80 hover:opacity-100 transition"
                 />
-                <a href="#" className="text-sm text-slate-700 hover:text-slate-900 hover:underline">Leer más</a>
+                <a href="https://www.diputados.gob.mx/LeyesBiblio/pdf/LFDA.pdf" className="text-sm text-slate-700 hover:text-slate-900 hover:underline">Leer más</a>
               </div>
               <div className="flex flex-col items-center gap-2 rounded-xl">
                 <img
@@ -38,7 +38,7 @@ export default function Home() {
                   alt="Banner 2"
                   className="mx-auto h-16 md:h-20 w-auto object-contain opacity-80 hover:opacity-100 transition"
                 />
-                <a href="#" className="text-sm text-slate-700 hover:text-slate-900 hover:underline">Leer más</a>
+                <a href="https://www.un.org/es/about-us/universal-declaration-of-human-rights" className="text-sm text-slate-700 hover:text-slate-900 hover:underline">Leer más</a>
               </div>
               <div className="flex flex-col items-center gap-2 rounded-xl">
                 <img
@@ -46,7 +46,7 @@ export default function Home() {
                   alt="Banner 3"
                   className="mx-auto h-16 md:h-20 w-auto object-contain opacity-80 hover:opacity-100 transition"
                 />
-                <a href="#" className="text-sm text-slate-700 hover:text-slate-900 hover:underline">Leer más</a>
+                <a href="https://www.un.org/es/" className="text-sm text-slate-700 hover:text-slate-900 hover:underline">Leer más</a>
               </div>
               <div className="flex flex-col items-center gap-2 rounded-xl">
                 <img
@@ -54,7 +54,7 @@ export default function Home() {
                   alt="Banner 4"
                   className="mx-auto h-16 md:h-20 w-auto object-contain opacity-80 hover:opacity-100 transition"
                 />
-                <a href="#" className="text-sm text-slate-700 hover:text-slate-900 hover:underline">Leer más</a>
+                <a href="https://www.scjn.gob.mx/" className="text-sm text-slate-700 hover:text-slate-900 hover:underline">Leer más</a>
               </div>
             </div>
           </div>

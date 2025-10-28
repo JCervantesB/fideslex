@@ -32,7 +32,6 @@ const services = [
       "Pasaporte mexicano",
       "Licencia de conducir",
       "Inscripción RFC",
-      "Asesoría personalizada"
     ]
   },
   {
@@ -44,16 +43,6 @@ const services = [
       "Actualizaciones constantes",
       "Acceso a tu expediente 24/7",
       "Notificaciones automáticas"
-    ]
-  },
-  {
-    icon: CreditCard,
-    title: "Pagos Flexibles",
-    description: "Opciones de pago accesibles para todos nuestros servicios",
-    features: [
-      "Consulta inicial gratuita",
-      "Sin costos ocultos",
-      "Presupuesto transparente"
     ]
   },
   {
@@ -81,11 +70,11 @@ export const Services = () => {
           </div>    
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="services-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
           {services.map((service, index) => (
             <Card 
               key={index} 
-              className="gradient-card border-border hover:shadow-xl transition-smooth hover:-translate-y-1"
+              className={`gradient-card border-border hover:shadow-xl transition-smooth hover:-translate-y-1 ${index < 3 ? 'lg:col-span-4' : 'lg:col-span-6'}`}
             >
               <CardHeader>
                 <div className="flex items-start justify-between mb-4">
@@ -102,7 +91,7 @@ export const Services = () => {
                 <ul className="space-y-3">
                   {service.features.map((feature, idx) => (
                     <li key={idx} className="flex items-start gap-3">
-                      <div className="w-1.5 h-1.5 rounded-full bg-accent mt-2 flex-shrink-0" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
                       <span className="text-base text-foreground">{feature}</span>
                     </li>
                   ))}

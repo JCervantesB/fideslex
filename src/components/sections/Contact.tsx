@@ -235,7 +235,7 @@ export const Contact = () => {
                   <div>
                     <h3 className="font-bold text-lg mb-1">Horarios de Atención</h3>
                     <p className="text-muted-foreground text-base">
-                      Lunes a Viernes: 9:00 - 18:00
+                      Lunes a Viernes: 3:00PM - 8:00PM
                     </p>
                   </div>
                 </div>

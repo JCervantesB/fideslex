@@ -41,7 +41,7 @@ export const Hero = () => {
           </div>
           
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-            <span className="text-gradient">Soluciones Legales</span>
+            <span className="text-gradient">"Soluciones de tramites</span>
             <br />
             <span className="text-foreground">Accesibles para Todos</span>
           </h1>
@@ -49,7 +49,7 @@ export const Hero = () => {
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed max-w-2xl">
             Brindamos respaldo legal con un enfoque amigable 
             y accesible. 
-            Servicios profesionales desde la comodidad de tu hogar.
+            Trámites de servicios desde la comodidad de tu hogar.
           </p>
 
           <div className="flex flex-col md:flex-row md:justify-between md:items-center text-primary-foreground gap-3 md:gap-4 w-full">
