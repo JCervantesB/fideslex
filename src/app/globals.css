@@ -228,6 +228,10 @@ thead th {
 thead tr {
   border-bottom: 1px solid var(--color-border);
 }
+/* Fondo blanco para todas las celdas de tabla */
+td {
+  background-color: #ffffff;
+}
 
 /* --- UTILIDADES DE BOTÓN Y LINKS --- */
 a, .link {
