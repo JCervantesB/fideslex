@@ -63,7 +63,7 @@ export const Header = () => {
               <Logo className="w-[100px] h-[70px] text-primary dark:text-foreground" aria-label="FidesLex" />
             </div>
             <div>
-              <h1 className="font-bold text-2xl text-primary dark:text-foreground hover:text-secondary transition-colors">Fídex Lex Asesoría</h1>
+              <h1 className="font-bold text-2xl text-primary dark:text-foreground hover:text-secondary transition-colors">Fídes Lex Asesoría</h1>
             </div>
           </div>
 

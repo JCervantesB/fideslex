@@ -5,55 +5,55 @@ const services = [
   {
     icon: ShieldCheck,
     title: "Registro de Marca",
-    description: "Protege tu marca/logo con nuestro servicio completo de registro",
+    description: "Protege tu marca/logo con nuestro servicio completo de registro.",
     features: [
-      "Búsqueda fonética previa",
-      "Marcas, marcas mixtas y logotipos",
-      "Aviso comercial",
-      "Declaración de uso y renovaciones"
+      "Búsqueda fonética previa.",
+      "Marcas, marcas mixtas y logotipos.",
+      "Aviso comercial.",
+      "Declaración de uso y renovaciones."
     ]
   },
   {
     icon: FileText,
     title: "Actas en Línea",
-    description: "Generación y corrección de actas oficiales de manera rápida y sencilla",
+    description: "Generación y corrección de actas oficiales de manera rápida y sencilla.",
     features: [
-      "Actas de nacimiento",
-      "Actas de matrimonio",
-      "Actas de defunción",
-      "Corrección de cualquier error"
+      "Actas de nacimiento.",
+      "Actas de matrimonio.",
+      "Actas de defunción.",
+      "Corrección de cualquier error."
     ]
   },
   {
     icon: ClipboardList,
     title: "Trámites Oficiales",
-    description: "Te ayudamos con todos tus trámites gubernamentales",
+    description: "Te ayudamos con todos tus trámites gubernamentales.",
     features: [
-      "Pasaporte mexicano",
-      "Licencia de conducir",
-      "Inscripción RFC",
+      "Pasaporte mexicano.",
+      "Licencia de conducir.",
+      "Inscripción RFC.",
     ]
   },
   {
     icon: FileCheck,
     title: "Gestión Integral",
-    description: "Seguimiento completo de tu caso desde inicio hasta resolución",
+    description: "Seguimiento completo de tu caso desde inicio hasta resolución.",
     features: [
-      "Documentación organizada",
-      "Actualizaciones constantes",
-      "Acceso a tu expediente 24/7",
-      "Notificaciones automáticas"
+      "Documentación organizada.",
+      "Actualizaciones constantes.",
+      "Acceso a tu expediente 24/7.",
+      "Notificaciones automáticas."
     ]
   },
   {
     icon: UserCheck,
     title: "Atención Personalizada",
-    description: "Asesoría dedicada con comunicación directa y clara",
+    description: "Asesoría dedicada con comunicación directa y clara.",
     features: [
-      "Videollamadas disponibles",
-      "Lenguaje claro y sencillo",
-      "Respaldo legal especializado",
-      "Soporte continuo"
+      "Videollamadas disponibles.",
+      "Lenguaje claro y sencillo.",
+      "Respaldo legal especializado.",
+      "Soporte continuo."
     ]
   }
 ];

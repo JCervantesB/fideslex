@@ -19,7 +19,7 @@ export const Footer = () => {
               </div>
             </div>
             <p className="text-white/80 text-base mb-4">
-              Brindando soluciones en tramites, accesibles para todos.
+              Brindando soluciones en trámites accesibles para todos.
             </p>
             <div className="flex gap-4">
               <a href="#" className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-base text-white">
