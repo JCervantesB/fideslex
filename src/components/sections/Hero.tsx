@@ -41,9 +41,9 @@ export const Hero = () => {
           </div>
           
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-            <span className="text-gradient">Soluciones de Trámites</span>
+            <span className="text-gradient">Soluciones de trámites</span>
             <br />
-            <span className="text-foreground">Accesibles para Todos</span>
+            <span className="text-foreground">accesibles para todos</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed max-w-2xl">
